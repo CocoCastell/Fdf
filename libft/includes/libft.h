@@ -6,7 +6,7 @@
 /*   By: cochatel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:13:45 by cochatel          #+#    #+#             */
-/*   Updated: 2025/01/20 19:12:51 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:22:12 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdint.h>
 # include <string.h>
 # include <unistd.h>
+# include "ft_printf_bonus.h"
 
 long		ft_atol(const char *str);
 int			ft_isdigit(int c);

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cochatel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 17:12:02 by cochatel          #+#    #+#             */
-/*   Updated: 2025/01/21 14:28:38 by cochatel         ###   ########.fr       */
+/*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
+/*   Updated: 2025/02/12 16:46:19 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../includes/fdf.h"
 
-size_t	ft_strlen(const char *str)
+void	exit_error(char *msg)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	if (msg != NULL)
+		ft_printf("%s", msg);
+	exit(1);
 }

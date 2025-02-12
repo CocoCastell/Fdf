@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/01/20 19:25:02 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:47:18 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,19 @@ void	free_list(t_list_gnl **lst, int fd, int nd_nb, t_list_gnl *next_nd)
 		*lst = NULL;
 }
 
-void	add_node(t_list_gnl **list, char *str, int fd, int i)
+int	add_node(t_list_gnl **list, char *str, int fd, int i)
 {
 	t_list_gnl	*new_node;
 	t_list_gnl	*last_node;
 
 	if (str == NULL)
-		return ;
+		return (1);
 	new_node = malloc(sizeof(t_list_gnl));
 	if (new_node == NULL)
-		return ;
+		return (1);
 	new_node->string = malloc(ft_strlen_gnl(str) + 1);
 	if (new_node->string == NULL)
-	{
-		free(new_node);
-		return ;
-	}
+		return (free(new_node), 1);
 	new_node->fd = fd;
 	new_node->next = NULL;
 	while (str[++i] != '\0')
@@ -67,6 +64,7 @@ void	add_node(t_list_gnl **list, char *str, int fd, int i)
 		*list = new_node;
 	else
 		last_node->next = new_node;
+	return (0);
 }
 
 int	make_list(t_list_gnl **list, int fd)
@@ -84,18 +82,19 @@ int	make_list(t_list_gnl **list, int fd)
 		{
 			free(buffer);
 			if (bytes_read == 0)
-				return (0);
+				return (2);
 			else
 				return (-1);
 		}
 		buffer[bytes_read] = '\0';
-		add_node(list, buffer, fd, -1);
+		if (add_node(list, buffer, fd, -1) == 1)
+			return (-1);
 		free(buffer);
 	}
 	return (0);
 }
 
-void	end_node(t_list_gnl **list, t_list_gnl *last_node, int fd)
+int	end_node(t_list_gnl **list, t_list_gnl *last_node, int fd)
 {
 	int			j;
 	int			i;
@@ -109,20 +108,20 @@ void	end_node(t_list_gnl **list, t_list_gnl *last_node, int fd)
 	{
 		str = malloc(ft_strlen_gnl(last_node->string) - i + 1);
 		if (str == NULL)
-			return ;
+			return (free_list(list, fd, 0, NULL), 1);
 		while (last_node->string[i] != '\0')
 			str[j++] = last_node->string[i++];
 		str[j] = '\0';
 		free_list(list, fd, 0, NULL);
 		last_node = find_last_node(*list, fd, 0, 0);
-		add_node(list, str, fd, -1);
-		free(str);
-		return ;
+		if (add_node(list, str, fd, -1) == 1)
+			return (free(str), 1);
+		return (free(str), 0);
 	}
-	free_list(list, fd, 0, NULL);
+	return (free_list(list, fd, 0, NULL), 0);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int *error)
 {
 	static t_list_gnl	*list;
 	t_list_gnl			*last_node;
@@ -130,14 +129,19 @@ char	*get_next_line(int fd)
 	int					check;
 
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (*error = -1, NULL);
 	check = make_list(&list, fd);
+	if (check == 2 && list == NULL)
+		return (*error = 1, NULL);
 	if (check == -1 || list == NULL)
-		return (NULL);
+		return (*error = -1, NULL);
+	if (check == 2)
+		*error = 1;
 	last_node = find_last_node(list, fd, 1, 0);
 	if (last_node == NULL || last_node->fd != fd)
-		return (NULL);
+		return (*error = -1, NULL);
 	next_line = extract_line(list, fd, 0);
-	end_node(&list, last_node, fd);
+	if (end_node(&list, last_node, fd) == 1)
+		return (*error = -1, NULL);
 	return (next_line);
 }

@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/01/20 19:23:01 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:13:15 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ typedef struct s_list_gnl
 t_list_gnl	*find_last_node(t_list_gnl *list, int fd, int flag, int node_nb);
 int			make_list(t_list_gnl **list, int fd);
 int			ft_strlen_gnl(const char *str);
+int			add_node(t_list_gnl **list, char *str, int fd, int i);
 bool		check_newline(t_list_gnl **list, int fd);
-void		add_node(t_list_gnl **list, char *str, int fd, int i);
 void		free_list(t_list_gnl **lst, int fd, int nd_nb, t_list_gnl *next_nd);
 char		*extract_line(t_list_gnl *head, int fd, int i);
-char		*get_next_line(int fd);
+char		*get_next_line(int fd, int *error);
 
 #endif

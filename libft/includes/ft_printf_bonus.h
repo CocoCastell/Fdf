@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:07:03 by cochatel          #+#    #+#             */
-/*   Updated: 2024/12/09 16:25:04 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:21:06 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <stdbool.h>
-# include "../../libft_b/includes/libft.h"
+# include "libft.h"
+# include "get_next_line_bonus.h"
 
 typedef struct s_parse
 {
