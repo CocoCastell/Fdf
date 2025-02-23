@@ -12,9 +12,22 @@
 
 #include "../includes/fdf.h"
 
-void	exit_error(char *msg)
+void	exit_error(char *msg, int error)
 {
 	if (msg != NULL)
 		ft_printf("%s", msg);
-	exit(1);
+	exit(error);
+}
+
+void	free_error(t_vars, char *msg, int error)
+{
+	if (vars->mlx != NULL)
+		free(vars->mlx);
+	if (vars->win != NULL)
+		free(vars->win);
+	if (vars->img.img != NULL)
+		free(vars->img.img);
+	if (vars->img.addr != NULL)
+		free(vars->img.addr);
+	exit_error(msg, error);
 }

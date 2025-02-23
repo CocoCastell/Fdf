@@ -12,6 +12,23 @@
 
 #include "../includes/fdf.h"
 
+void	map_data(t_vars *vars)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (vars->map.map[i] != NULL)
+	{
+		j = 0;
+		while (vars->map.map[i][j] != '\0')
+			j++;
+		i++;
+	}
+	vars->map.width = j/2; //ATTENTION IL FAUDRAIT GERER LES ERREUR D'ESPACES, PEUT ETRE CREER UN TABLEAU DE INT
+	vars->map.height = i/2;
+}
+
 int	check_length(int length, char *string)
 {
 	int	string_length;
