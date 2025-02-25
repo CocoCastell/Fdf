@@ -1,4 +1,4 @@
-objs/put_in_matrix.o: srcs/put_in_matrix.c srcs/../includes/fdf.h \
+objs/map_manager.o: srcs/map_manager.c srcs/../includes/fdf.h \
  srcs/../includes/../mlx_linux/mlx.h \
  srcs/../includes/../mlx_linux/mlx_int.h \
  srcs/../includes/../libft/includes/libft.h \

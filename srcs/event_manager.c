@@ -33,9 +33,9 @@ int	handle_mouse(int mousecode, int x, int y, t_vars *vars)
 		if (vars->camera.zoom < WIN_WIDTH)
 			vars->camera.zoom++;
 	}
-	//mlx_clear_window(vars->mlx, vars->win);
-	//rendering_map(vars);
-	//mlx_put_image_to_window(vars->mlx, vars->win, vars->    img.img, 0, 0);
+	mlx_clear_window(vars->mlx, vars->win);
+	render_map(vars);
+//	mlx_put_image_to_window(vars->mlx, vars->win, vars->    img.img, 0, 0);
 	return (0);
 }
 
@@ -48,8 +48,6 @@ int	handle_key(int keycode, t_vars *vars)
 
 void    event_manager(t_vars *vars)
 {
-	//ft_printf("Zoom: %d\n", vars->camera.zoom);
-        ft_printf("window_manager: vars addr = %p\n", vars);
 	mlx_hook(vars->win, ClientMessage, StructureNotifyMask, my_close, vars);
 	mlx_key_hook(vars->win, handle_key, vars);
 	mlx_hook(vars->win, 4, 1L << 2, handle_mouse, vars);

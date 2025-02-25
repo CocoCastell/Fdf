@@ -46,9 +46,10 @@ typedef struct s_data_img
 
 typedef struct s_map
 {
-	int	width;
-	int	height;
-	char	**map;
+	int	**map;
+	int	x_axis;
+	int	y_axis;
+	int	z_axis;
 }		t_map;
 
 typedef struct s_camera
@@ -63,7 +64,7 @@ typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
-	t_camera	*camera;
+	t_camera	camera;
 	t_map		map;
 	t_data_img	img;
 }		t_vars;
@@ -83,13 +84,30 @@ typedef struct s_point
 
 void	exit_error(char *msg, int error);
 void	free_error(t_vars *vars, char *msg, int error);
+void	error_map(char *str1, char *str2, t_vars *vars, char *msg);
+
+// Utils
+
+int	find_offset(t_map map, t_camera camera);
+t_point	new_map_center(t_vars *vars);
+
+// Map
+
+void	init_map(char **map, t_vars *vars);
+char	*get_full_line(int fd, int is_eof, t_vars *vars);
+void	map_manager(char *argv[], t_vars *vars);
+
+// Geometry
+
+void	center(t_point *point, t_point map_center);
+void	scale(t_point *point, t_camera camera);
+void	isometric_projection(t_point *point, t_camera camera);
+void	isometric_view(t_point origin, t_point dest, t_vars *vars);
 
 // Algo
 
-void	map_data(t_vars *vars);
 void	draw_line(t_point origin, t_point dest, t_vars *vars);
-char	**put_in_matrix(char *argv[]);
-void	window_manager(t_vars *vars);
-void	rendering_map(t_vars *vars);
+void	event_manager(t_vars *vars);
+void	render_map(t_vars *vars);
 
 #endif

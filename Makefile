@@ -15,15 +15,19 @@ LIBFT_DIR	=	libft/
 # Files
 SRCS		=	main.c \
 			error.c \
-			put_in_matrix.c \
+			map_manager.c \
 			draw_line.c \
-			window_manager.c
+			event_manager.c \
+			isometry.c \
+			utils.c
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 LIBFT_FILES	=	gnl/get_next_line_bonus.c \
 			gnl/get_next_line_utils_bonus.c \
 			printf/ft_manager_bonus.c \
 			printf/ft_printf_bonus.c \
 			printf/ft_types_bonus.c \
+			lib/ft_free_string_array.c \
+			lib/ft_free_matrix.c \
 			lib/ft_putnbr_fd.c \
 			lib/ft_strmapi.c \
 			lib/ft_putstr_fd.c \

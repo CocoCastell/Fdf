@@ -1,4 +1,4 @@
-objs/window_manager.o: srcs/window_manager.c srcs/../includes/fdf.h \
+objs/isometry.o: srcs/isometry.c srcs/../includes/fdf.h \
  srcs/../includes/../mlx_linux/mlx.h \
  srcs/../includes/../mlx_linux/mlx_int.h \
  srcs/../includes/../libft/includes/libft.h \

@@ -12,73 +12,61 @@
 
 #include "../includes/fdf.h"
 
-void	apply_zoom_and_center(t_point *point, t_vars *vars)
-{
-	point->x *= vars->camera.zoom; 
-	point->y *= vars->camera.zoom; 
-	point->z *= vars->camera.zoom; 
-	point->x += (vars->map.width / 2) * vars->camera.zoom;
-	point->y += (vars->map.height / 2) * vars->camera.zoom;
-}
-
-void	isometric_projection(t_point *point, t_vars *vars)
-{
-	int	tmp;
-	tmp = point->x;
-	point->x = (point->x - point->y) * cos(vars->camera.x_angle); 
-	point->y = (tmp + point->y) * sin(vars->camera.x_angle) - point->z;
-}
-
-void	isometric_view(t_point origin, t_point dest, t_vars *vars)
-{
-	apply_zoom_and_center(&origin, vars);
-	apply_zoom_and_center(&dest, vars);
-	isometric_projection(&origin, vars);
-	isometric_projection(&dest, vars);
-	draw_line(origin, dest, vars);
-}
-
-void    send_to_draw(int i, int j, t_vars *vars, char **line[2])
+void    send_to_draw(int i, int j, t_vars *vars)
 {
         t_point dest;
 	t_point origin;
 
 	origin.x = j;
 	origin.y = i;
-	origin.z = atoi(line[0][j - 1]);
-	ft_printf("RENDER: %d\n", vars->camera.zoom);
-	if (line[0][j] != NULL)
+	origin.z = vars->map.map[i - 1][j - 1];
+	if (j < vars->map.x_axis)
 	{
 		dest.y = i;
 		dest.x = j + 1;
-		dest.z = atoi(line[0][j]);		
+		dest.z = vars->map.map[i - 1][j];
 		isometric_view(origin, dest, vars);
 	}
-	if (line[1] != NULL)
+	if (i < vars->map.y_axis)
 	{
 		dest.y = i + 1;
 		dest.x = j;
-		dest.z = atoi(line[1][j - 1]);
+		dest.z = vars->map.map[i][j - 1];
 		isometric_view(origin, dest, vars);
 	}
 }
 
-void	rendering_map(t_vars *vars)
+void	render_map(t_vars *vars)
 {
-	char	**line[2];
 	int	i;
 	int	j;
 	
 	i = -1;
-	while (vars->map.map[++i] != NULL)
+	//vars->win = mlx_new_window(vars->mlx, WIN_WIDTH, WIN_HEIGHT, "Rendering");
+	//if (vars->win == NULL)
+	//	free_error(vars, "Win init error\n", 1);
+    // Remplis l'image d'une couleur de fond (optionnel mais utile pour effacer l'écran)
+    mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+
+	t_point a;
+	t_point b;
+
+	a.x = WIN_WIDTH / 2 - 20;
+	a.y = WIN_HEIGHT / 2;
+	b.x = WIN_WIDTH / 2 + 20;
+	b.y = WIN_HEIGHT / 2;
+	draw_line(a, b, vars);
+	a.x = WIN_WIDTH / 2;
+	a.y = WIN_HEIGHT / 2 - 20;
+	b.x = WIN_WIDTH / 2;
+	b.y = WIN_HEIGHT / 2 + 20;
+	draw_line(a, b, vars);
+	//ft_printf("Window center: (%d, %d)\n", a.x, WIN_HEIGHT / 2);
+	while (++i < vars->map.y_axis)
 	{
 		j = -1;
-		line[0] = ft_split(vars->map.map[i], ' ');
-		line[1] = ft_split(vars->map.map[i + 1], ' ');
-		while (++j <= vars->map.width)
-			send_to_draw(i + 1, j + 1, vars, line);
-		free(line[0]);
-		free(line[1]);
+		while (++j < vars->map.x_axis)
+			send_to_draw(i + 1, j + 1, vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 }
@@ -97,27 +85,15 @@ void	ft_mlx_init(t_vars *vars)
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
 	if (vars->img.addr == NULL)
 		free_error(vars, "Img addr init error\n", 1);
-	vars->camera = NULL;
 	vars->map.map = NULL;
-	vars->map.width = 0;
-	vars->map.height = 0;
-}
-
-void	mlx_manager(t_vars *vars)
-{
-	ft_init_mlx(vars);
-	window_manager(vars);
-	rendering_map(vars);
-	mlx_clear_window(vars->mlx, vars->win);            
-	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
-	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
-	rendering_map(vars);
-	mlx_loop(vars->mlx);
+	vars->map.x_axis = 0;
+	vars->map.y_axis = 0;
+	vars->map.z_axis = 0;
 }
 
 void	init_camera(t_camera *camera)
 {
-	camera->zoom = 20;
+	camera->zoom = 25;
 	camera->x_angle = 0.5236;
 }
 
@@ -128,11 +104,11 @@ int	main(int argc, char *argv[])
 	if (argc == 2)
 	{
 		ft_mlx_init(&vars);
-		vars.map.map = put_in_matrix(argv);
+		map_manager(argv, &vars);
 		init_camera(&vars.camera);
 		event_manager(&vars);
-		mlx_rendering(&vars);
-		mlx_loop(vars->mlx);
+		render_map(&vars);
+		mlx_loop(vars.mlx);
 	}
 	else
 		return (ft_printf("Wrong number of arguments\n"), 1);
