@@ -19,6 +19,8 @@ SRCS		=	main.c \
 			draw_line.c \
 			event_manager.c \
 			isometry.c \
+			color_mode.c \
+			color.c \
 			utils.c
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 LIBFT_FILES	=	gnl/get_next_line_bonus.c \

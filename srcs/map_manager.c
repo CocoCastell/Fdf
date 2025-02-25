@@ -6,33 +6,39 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/12 16:45:31 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:50:47 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
 //to center the map in the window
-int	find_max_z(t_map map)
+
+void	find_min_max_z(t_map *map)
 {
 	int	i;
 	int	j;
-	int	z;
-	
+	int	max;
+	int	min;
+
 	i = 0;
-	z = 0;
-	while (i < map.y_axis)
+	max = INT_MIN;
+	min = INT_MAX;
+	while (i < map->y_axis)
 	{
 		j = 0;
-		while (j < map.x_axis)
+		while (j < map->x_axis)
 		{
-			if (map.map[i][j] > z)
-				z = map.map[i][j];
+			if (map->map[i][j] > max)
+				max = map->map[i][j];
+			if (map->map[i][j] < min)
+				min = map->map[i][j];
 			j++;
 		}
 		i++;
 	}
-	return (z);
+	map->z_max = max;
+	map->z_min = min;
 }
 
 int	get_matrix(t_vars *vars, int **new_map, char **map)
@@ -64,32 +70,20 @@ int	get_matrix(t_vars *vars, int **new_map, char **map)
 	return (0);
 }
 
-void	init_map(char **map, t_vars *vars)
+void	map_lengths(char **map, int *rows, int *cols)
 {
-	int	i;
-	int	j;
-	int	m;
-	int	**new_map;
+	char **line;
 
-	i = -1;
-	m = 0;
-	new_map = NULL;
-	while (map[++i] != NULL)
+	while (map[*rows] != NULL)
 	{
-		j = -1;
-		while (map[i][++j] != '\0')
-		{
-			if (map[i][j] >= '0' && map[i][j] <= '9')
-				m++;
-		}
+		line = ft_split(map[*rows], ' ');
+		if (line == NULL)
+			return ; // retrourner erreur
+		while(line[*cols] != NULL)
+			(*cols)++;
+		free(line);
+		(*rows)++;
 	}
-	vars->map.y_axis = i;
-	vars->map.x_axis = m / i; //ATTENTION IL FAUDRAIT GERER LES ERREUR D'ESPACES, PEUT ETRE CREER UN TABLEAU DE INT
-	if (get_matrix(vars, new_map, map) == 1)
-		error_map(NULL, NULL, vars, "Map error\n");
-	if (get_matrix(vars, new_map, map) == 2)
-		error_map(NULL, NULL, vars, "Wrong map configuration\n");
-	vars->map.z_axis = find_max_z(vars->map);
 }
 
 char	*get_full_line(int fd, int is_eof, t_vars *vars)
@@ -116,19 +110,27 @@ char	*get_full_line(int fd, int is_eof, t_vars *vars)
 	return (buffer);
 }
 
-void	map_manager(char *argv[], t_vars *vars)
+void	map_init(char *argv[], t_vars *vars)
 {
 	int		fd;
 	char	*full_line;
 	char	**map;
+	int		**new_map;
 	
 	fd = open(argv[1], O_RDONLY);
 	full_line = get_full_line(fd, 0, vars);
 	close(fd);
 	map = ft_split(full_line, '\n');
-	if (map == NULL)
-		error_map(NULL, full_line, vars, "Split error\n");
 	free(full_line);
-	init_map(map, vars);
+	if (map == NULL)
+		free_error(vars, "Split error\n", 1);
+	new_map = NULL;
+	map_lengths(map, &vars->map.y_axis, &vars->map.x_axis);
+	if (get_matrix(vars, new_map, map) == 1)
+		error_map(NULL, NULL, vars, "Map error\n");
+	if (get_matrix(vars, new_map, map) == 2)
+		error_map(NULL, NULL, vars, "Wrong map configuration\n");
+	find_min_max_z(&vars->map);
+	blue_to_orange(vars);
 	ft_free_string_array(map);
 }

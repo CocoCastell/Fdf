@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_interaction.c                               :+:      :+:    :+:   */
+/*   event_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/12 16:47:58 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/25 10:58:41 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ int	handle_mouse(int mousecode, int x, int y, t_vars *vars)
 	if (mousecode == MOUSE_WHEEL_UP)
 	{
 		if (vars->camera.zoom > 1)
-			vars->camera.zoom--;
-		//ft_printf("Zoom: %d\n", vars->camera.zoom);
+			vars->camera.zoom -= 2;
 	}
 	if (mousecode == MOUSE_WHEEL_DOWN)
 	{
 		if (vars->camera.zoom < WIN_WIDTH)
-			vars->camera.zoom++;
+			vars->camera.zoom += 2;
 	}
-	mlx_clear_window(vars->mlx, vars->win);
 	render_map(vars);
-//	mlx_put_image_to_window(vars->mlx, vars->win, vars->    img.img, 0, 0);
 	return (0);
 }
 

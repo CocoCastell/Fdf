@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   color_mode.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cochatel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 17:10:53 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/25 10:56:44 by cochatel         ###   ########.fr       */
+/*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
+/*   Updated: 2025/02/25 15:30:47 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../includes/fdf.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	blue_to_orange(t_vars *vars)
 {
-	size_t			i;
-	unsigned char	*ptr;
-	unsigned char	cc;
-
-	ptr = (unsigned char *)s;
-	cc = (unsigned char)c;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = cc;
-		i++;
-	}
-	return (s);
+	vars->map.max_color.r = 240;
+	vars->map.max_color.g = 248;
+	vars->map.max_color.b = 255;
+	vars->map.min_color.r = 255;
+	vars->map.min_color.g = 36;
+	vars->map.min_color.b = 0;
 }
