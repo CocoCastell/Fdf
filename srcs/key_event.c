@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event_manager.c                                    :+:      :+:    :+:   */
+/*   key_event.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/25 10:58:41 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:19:11 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,24 @@ int	my_close(t_vars *vars)
 	exit(0);
 }
 
-int	handle_mouse(int mousecode, int x, int y, t_vars *vars)
+int	key_pressed(int keycode, t_vars *vars)
 {
-	(void)x;
-	(void)y;
-	if (mousecode == MOUSE_WHEEL_UP)
-	{
-		if (vars->camera.zoom > 1)
-			vars->camera.zoom -= 1;
-	}
-	if (mousecode == MOUSE_WHEEL_DOWN)
-	{
-		if (vars->camera.zoom < WIN_WIDTH)
-			vars->camera.zoom += 1;
-	}
+	if (keycode == KEY_1)
+		put_color_mode(TERRAIN, vars);
+	if (keycode == KEY_2)
+		put_color_mode(WHITE_TO_RED, vars);
+	if (keycode == KEY_3)
+		put_color_mode(BLUE_TO_ORANGE, vars);
+	if (keycode == KEY_4)
+		put_color_mode(WHITE, vars);
+	if (keycode == ESC)
+		my_close(vars);
 	render_window(vars);
 	return (0);
 }
 
-int	handle_key(int keycode, t_vars *vars)
+/*int	key_released(int keycode, t_vars *vars)
 {
-	if (keycode == ESC)
-		my_close(vars);
 	return (0);
 }
-
-void    event_manager(t_vars *vars)
-{
-	mlx_hook(vars->win, ClientMessage, StructureNotifyMask, my_close, vars);
-	mlx_key_hook(vars->win, handle_key, vars);
-	mlx_hook(vars->win, 4, 1L << 2, handle_mouse, vars);
-	(void)vars;
-}
+*/

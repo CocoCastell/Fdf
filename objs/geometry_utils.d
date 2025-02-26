@@ -1,4 +1,4 @@
-objs/isometry.o: srcs/isometry.c srcs/../includes/fdf.h \
+objs/geometry_utils.o: srcs/geometry_utils.c srcs/../includes/fdf.h \
  srcs/../includes/../mlx_linux/mlx.h \
  srcs/../includes/../mlx_linux/mlx_int.h \
  srcs/../includes/../libft/includes/libft.h \

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_init.c                                         :+:      :+:    :+:   */
+/*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/25 15:50:47 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:26:21 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*get_full_line(int fd, int is_eof, t_vars *vars)
 	return (buffer);
 }
 
-void	map_init(char *argv[], t_vars *vars)
+void	get_map(char *argv[], t_vars *vars)
 {
 	int		fd;
 	char	*full_line;
@@ -131,6 +131,5 @@ void	map_init(char *argv[], t_vars *vars)
 	if (get_matrix(vars, new_map, map) == 2)
 		error_map(NULL, NULL, vars, "Wrong map configuration\n");
 	find_min_max_z(&vars->map);
-	blue_to_orange(vars);
 	ft_free_string_array(map);
 }

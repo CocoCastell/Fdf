@@ -1,4 +1,4 @@
-objs/map_init.o: srcs/map_init.c srcs/../includes/fdf.h \
+objs/geometry.o: srcs/geometry.c srcs/../includes/fdf.h \
  srcs/../includes/../mlx_linux/mlx.h \
  srcs/../includes/../mlx_linux/mlx_int.h \
  srcs/../includes/../libft/includes/libft.h \

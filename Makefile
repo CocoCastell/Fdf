@@ -15,13 +15,17 @@ LIBFT_DIR	=	libft/
 # Files
 SRCS		=	main.c \
 			error.c \
-			map_init.c \
+			get_map.c \
 			draw_line.c \
-			event_manager.c \
-			isometry.c \
+			geometry.c \
 			color_mode.c \
 			color.c \
 			menu.c \
+			mouse_event.c \
+			key_event.c \
+			inits.c \
+			geometry_utils.c \
+			color_utils.c \
 			utils.c
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 LIBFT_FILES	=	gnl/get_next_line_bonus.c \
@@ -94,7 +98,7 @@ INCLUDES	=	includes/fdf.h \
 DEPS		=	$(LIBFT) $(LIBFT_SRCS) $(LIBFT_DIR) $(MLX) $(MLX_DIR) $(INCLUDES) $(LIBFT_DIR)includes $(LIBFT_DIR)gnl				 $(LIBFT_DIR)printf $(LIBFT_DIR)lib includes Makefile
 
 # Rules
-all:			$(NAME) 
+all:			$(NAME) $(DEPS)
 
 $(NAME):		$(OBJS) $(DEPS)
 			$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)

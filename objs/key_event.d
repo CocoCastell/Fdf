@@ -1,4 +1,4 @@
-objs/event_manager.o: srcs/event_manager.c srcs/../includes/fdf.h \
+objs/key_event.o: srcs/key_event.c srcs/../includes/fdf.h \
  srcs/../includes/../mlx_linux/mlx.h \
  srcs/../includes/../mlx_linux/mlx_int.h \
  srcs/../includes/../libft/includes/libft.h \
