@@ -12,13 +12,13 @@
 
 #include "../includes/fdf.h"
 
-void    put_pixel(t_point point, t_data_img *img, int color)
+void    put_pixel(int x, int y, t_data_img *img, int color)
 {
 	char	*dst;
 
-	if (point.x <= WIN_WIDTH && point.x >= 0 && point.y <= WIN_HEIGHT && point.y >= 0)
+	if (x <= WIN_WIDTH && x >= 0 && y <= WIN_HEIGHT && y >= 0)
 	{
-		dst = img->addr + (point.y * img->line_length + point.x * (img->bpp / 8 ));
+		dst = img->addr + (y * img->line_length + x * (img->bpp / 8 ));
 		*(unsigned int *)dst = color;
 	}
 }
@@ -40,15 +40,10 @@ void    slope_bigger_than_one(t_point origin, t_point dest, t_vars *vars, t_poin
 	int	p;
 	int	direction;
 	int	color;
-	t_point	f_pixel;
-	t_point	l_pixel;
-	
-	f_pixel.color.r = origin.color.r;
-	f_pixel.color.g = origin.color.g;
-	f_pixel.color.b = origin.color.b;
-	l_pixel.color.r = origin.color.r;
-	l_pixel.color.g = origin.color.g;
-	l_pixel.color.b = origin.color.b;
+	int	i = 0;
+	int	j = 0;
+	t_point	point;
+
 	direction = 1;
 	if (origin.y > dest.y)
 		inverse_value(&origin, &dest);
@@ -57,16 +52,18 @@ void    slope_bigger_than_one(t_point origin, t_point dest, t_vars *vars, t_poin
 	p = 2 * diff.x - diff.y;
     if (diff.y != 0)
 	{
-		while (origin.y != dest.y)
+		while (origin.y + i != dest.y)
 		{
-			color = set_pixel_color(f_pixel, l_pixel, origin, vars);
-			put_pixel(origin, &vars->img, color);
+			point.x = origin.x + j;
+			point.y = origin.y + i;
+			color = set_pixel_color(dest, origin, point, vars);
+			put_pixel(origin.x + j, origin.y + i, &vars->img, color);
 			p += 2 * diff.x - 2 * diff.y;
 			if (p >= 0)
-				origin.x += direction;
+				j += direction;
 			else
 				p += 2 * diff.y;
-			origin.y++;
+			i++;
 		}
     }
 }
@@ -75,7 +72,11 @@ void    slope_smaller_than_one(t_point origin, t_point dest, t_vars *vars, t_poi
 {
         int     p;
 	int	direction;
-	
+	t_point	point;
+	int	j = 0;
+	int	i = 0;
+	int 	color;
+
 	direction = 1;
 	if (origin.x > dest.x)
         	inverse_value(&origin, &dest);
@@ -84,15 +85,18 @@ void    slope_smaller_than_one(t_point origin, t_point dest, t_vars *vars, t_poi
 	p = 2 * diff.y - diff.x;
         if (diff.x != 0)
 	{
-		while (origin.x != dest.x)
+		while (origin.x + j != dest.x)
 		{
-			put_pixel(origin, &vars->img, 0x0000FF00);
+			point.x = origin.x + j;
+			point.y = origin.y + i;
+			color = set_pixel_color(origin, dest, point, vars);
+			put_pixel(origin.x + j, origin.y + i, &vars->img, color);
 			p += 2 * diff.y - 2 * diff.x;
 			if (p >= 0)
-				origin.y += direction;
+				i += direction;
 			else
 				p += 2 * diff.x;
-			origin.x++;
+			j++;
 		}
         }
 }

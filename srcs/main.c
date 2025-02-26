@@ -12,7 +12,7 @@
 
 #include "../includes/fdf.h"
 
-void    send_to_draw(int i, int j, t_vars *vars)
+void    render_map(int i, int j, t_vars *vars)
 {
         t_point dest;
 	t_point origin;
@@ -36,13 +36,14 @@ void    send_to_draw(int i, int j, t_vars *vars)
 	}
 }
 
-void	render_map(t_vars *vars)
+void	render_window(t_vars *vars)
 {
 	int	i;
 	int	j;
 	
 	i = -1;
 	ft_bzero(vars->img.addr, WIN_HEIGHT * WIN_WIDTH * (vars->img.bpp / 8));
+	draw_menu(vars);
 	/*t_point a;
 	t_point b;
 
@@ -56,13 +57,15 @@ void	render_map(t_vars *vars)
 	b.x = WIN_WIDTH / 2;
 	b.y = WIN_HEIGHT / 2 + 20;
 	draw_line(a, b, vars);
-	*/while (++i < vars->map.y_axis)
+	*/
+	while (++i < vars->map.y_axis)
 	{
 		j = -1;
 		while (++j < vars->map.x_axis)
-			send_to_draw(i + 1, j + 1, vars);
+			render_map(i + 1, j + 1, vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+	put_menu_strings(vars);
 }
 
 void	ft_mlx_init(t_vars *vars)
@@ -70,10 +73,10 @@ void	ft_mlx_init(t_vars *vars)
 	vars->mlx = mlx_init();
 	if (vars->mlx == NULL)
 		exit_error("Mlx init error\n", 1);
-	vars->win = mlx_new_window(vars->mlx, WIN_WIDTH, WIN_HEIGHT, "Rendering");
+	vars->win = mlx_new_window(vars->mlx, WIN_WIDTH + MENU_WIDTH, WIN_HEIGHT, "Rendering");
 	if (vars->win == NULL)
 		free_error(vars, "Win init error\n", 1);
-	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH + MENU_WIDTH, WIN_HEIGHT);
 	if (vars->img.img == NULL)
 		free_error(vars, "Img init error\n", 1);
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bpp, &vars->img.line_length, &vars->img.endian);
@@ -103,7 +106,7 @@ int	main(int argc, char *argv[])
 		map_init(argv, &vars);
 		init_camera(&vars.camera);
 		event_manager(&vars);
-		render_map(&vars);
+		render_window(&vars);
 		mlx_loop(vars.mlx);
 	}
 	else

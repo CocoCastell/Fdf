@@ -17,17 +17,35 @@ int	create_color(int t, int r, int g, int b)
 	return ((t & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF));
 }
 
+float fraction(float x1, float x2, float x)
+{
+	if (x1 != x2)
+		return ((x - x1) / (x2 - x1));
+	return (0);
+}
+
 int	find_color(int max_color, int min_color, t_vars *vars, int height_point)
 {
 	int	color;
-	float coef;
-	t_point diff;
+	double coef;
+	//double dy;
+	//double dx;
 
-	diff.y = (vars->map.z_min - vars->map.z_max) * vars->camera.zoom;
-	diff.x = max_color - min_color;
-	if (diff.x != 0)
-		coef = diff.y / diff.x;
-	color = coef * (height_point) + min_color;
+	coef = 0;
+	//dy = (vars->map.z_max - vars->map.z_min);// * vars->camera.zoom;
+	//dx = (max_color - min_color);
+	//ft_printf("APRES: diff.x: %d, diff.y: %d\n", diff.x, diff.y);
+	//if (abs(diff.x) > abs(diff.y))
+	//	coef = progression_fraction(origin.x, dest.x, pixel.x);
+	//else
+	//	coef = progression_fraction(origin.y, dest.y, pixel.y);
+	if (vars->map.z_max != vars->map.z_min)
+		coef = fraction((float)vars->map.z_min, (float)vars->map.z_max, (float)height_point);
+	color = coef * (max_color - min_color) + min_color; 
+	if (color > 255)
+		color = 255;
+	if (color < 0)
+		color = 0;
 	return (color);
 }
 
@@ -35,30 +53,25 @@ void	set_point_color(t_point *point, t_vars *vars)
 {
 	int	h;
 
-	h = (point->z - vars->map.z_min) * vars->camera.zoom;
-	point->color.r = find_color(vars->map.max_color.r, vars->map.max_color.r, vars, h);
-	point->color.g = find_color(vars->map.max_color.g, vars->map.max_color.g, vars, h);
-	point->color.b = find_color(vars->map.max_color.b, vars->map.max_color.b, vars, h);
+	h = (point->z - vars->map.z_min);// * vars->camera.zoom;
+	point->color.r = find_color(vars->map.max_color.r, vars->map.min_color.r, vars, h);
+	point->color.g = find_color(vars->map.max_color.g, vars->map.min_color.g, vars, h);
+	point->color.b = find_color(vars->map.max_color.b, vars->map.min_color.b, vars, h);
+	//ft_printf("r: %d, g: %d, b: %d\n", point->color.r, point->color.g, point->color.b);
 }
 
-float progression_fraction(float x1, float x2, float x)
-{
-	if (x1 != x2)
-		return ((x - x1) / (x2 - x1));
-	return (0);
-}
-
-int	find_fraction(t_point origin, t_point dest, t_point pixel, t_vars *vars)
+float	interpolation_fraction(t_point origin, t_point dest, t_point pixel)
 {
 	float coef;
 	t_point diff;
 
-	diff.y = dest.y - origin.y * vars->camera.zoom;
-	diff.x = dest.x - origin.x * vars->camera.zoom;
+	diff.y = (dest.y - origin.y);
+	diff.x = (dest.x - origin.x);
 	if (abs(diff.x) > abs(diff.y))
-		coef = progression_fraction(origin.x, dest.x, pixel.x);
+		coef = fraction(origin.x, dest.x, pixel.x);
+	else
+		coef = (fraction(origin.y, dest.y, pixel.y));
 	return (coef);
-	//color = coef * (height_point) + min_color;
 }
 
 int	set_pixel_color(t_point origin, t_point dest, t_point pixel, t_vars *vars)
@@ -66,7 +79,9 @@ int	set_pixel_color(t_point origin, t_point dest, t_point pixel, t_vars *vars)
 	int pixel_color;
 	float	f;
 	
-	f = find_fraction(origin, dest, pixel, vars);
+	(void)vars;
+	//ft_printf("ox: %d, oy: %d, dx: %d, dy: %d, pix: %d, piy: %d\n", origin.x, origin.y, dest.x, dest.y, pixel.x, pixel.y);
+	f = interpolation_fraction(origin, dest, pixel);
 	pixel.color.r = origin.color.r + (dest.color.r - origin.color.r) * f;
 	pixel.color.g = origin.color.g + (dest.color.g - origin.color.g) * f;
 	pixel.color.b = origin.color.b + (dest.color.b - origin.color.b) * f;

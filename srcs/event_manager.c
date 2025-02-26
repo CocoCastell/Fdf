@@ -25,14 +25,14 @@ int	handle_mouse(int mousecode, int x, int y, t_vars *vars)
 	if (mousecode == MOUSE_WHEEL_UP)
 	{
 		if (vars->camera.zoom > 1)
-			vars->camera.zoom -= 2;
+			vars->camera.zoom -= 1;
 	}
 	if (mousecode == MOUSE_WHEEL_DOWN)
 	{
 		if (vars->camera.zoom < WIN_WIDTH)
-			vars->camera.zoom += 2;
+			vars->camera.zoom += 1;
 	}
-	render_map(vars);
+	render_window(vars);
 	return (0);
 }
 

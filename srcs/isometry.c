@@ -14,7 +14,7 @@
 
 void    center(t_point *point, t_point map_center)
 {
-	point->x += (WIN_WIDTH / 2) - map_center.x;
+	point->x += (WIN_WIDTH / 2) - map_center.x + MENU_WIDTH;
 	point->y += (WIN_HEIGHT / 2) - map_center.y;
 }
 
@@ -38,10 +38,11 @@ void    isometric_view(t_point origin, t_point dest, t_vars *vars)
 {
         t_point map_center;
 
-	//	set_color(&origin, vars);
+	set_point_color(&origin, vars);
+        set_point_color(&dest, vars);
 	//	ft_printf("AVANT: origin: %d, %d, dest: %d, %d\n", origin.x, origin.y, dest.x, dest.y);
-    //    set_color(&dest, vars);
-		scale(&origin, vars->camera);
+	//ft_printf("color o: %d, color d: %d\n", origin.color.r, dest.color.r);
+	scale(&origin, vars->camera);
         scale(&dest, vars->camera);
         isometric_projection(&origin, vars->camera);
         isometric_projection(&dest, vars->camera);

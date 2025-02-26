@@ -14,10 +14,10 @@
 
 void	blue_to_orange(t_vars *vars)
 {
-	vars->map.max_color.r = 240;
-	vars->map.max_color.g = 248;
-	vars->map.max_color.b = 255;
-	vars->map.min_color.r = 255;
-	vars->map.min_color.g = 36;
-	vars->map.min_color.b = 0;
+	vars->map.min_color.r = 200;
+	vars->map.min_color.g = 220;
+	vars->map.min_color.b = 255;
+	vars->map.max_color.r = 255;
+	vars->map.max_color.g = 80;
+	vars->map.max_color.b = 0;
 }

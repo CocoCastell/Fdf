@@ -22,8 +22,10 @@
 # include <stdlib.h>
 # include <limits.h>
 
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 720
+# define MENU_WIDTH 400
+# define MENU_HEIGHT 1000
+# define WIN_WIDTH 1400
+# define WIN_HEIGHT 1000
 # define LINE 20
 # define ESC 65307
 # define RIGHT_CLIC 3
@@ -126,19 +128,25 @@ void	isometric_view(t_point origin, t_point dest, t_vars *vars);
 
 // Algo
 
+void	put_pixel(int x, int y, t_data_img *img, int color);
 void	draw_line(t_point origin, t_point dest, t_vars *vars);
 void	event_manager(t_vars *vars);
-void	render_map(t_vars *vars);
+void	render_window(t_vars *vars);
 
 // Color
 
 int		create_color(int t, int r, int g, int b);
-void	set_point_color(t_point *point, t_vars *vars);
+void		set_point_color(t_point *point, t_vars *vars);
 int		find_color(int max_color, int min_color, t_vars *vars, int height_point);
 int		set_pixel_color(t_point origin, t_point dest, t_point pixel, t_vars *vars);
 
 // Mode
 
 void	blue_to_orange(t_vars *vars);
+
+
+// Menu
+void	put_menu_strings(t_vars *vars);
+void	draw_menu(t_vars *vars);
 
 #endif
