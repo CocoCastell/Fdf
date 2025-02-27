@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:08:37 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:46:25 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	init_event(t_event *event)
 {
 	event->is_left_pressed = false;
 	event->is_right_pressed = false;
+	event->is_wheel_pressed = false;
+	event->is_1_pressed = false;
+	event->is_2_pressed = false;
+	event->is_3_pressed = false;
+	event->is_3_pressed = false;
+	event->has_mouse_moved = false;
+	event->is_transposed = false;
 }
 
 void	init_camera(t_camera *camera)
@@ -39,6 +46,8 @@ void	init_camera(t_camera *camera)
 	camera->mouse_click.y = 0;
 	camera->mouse_move.x = 0;
 	camera->mouse_move.y = 0;
+	camera->tot_move.x = 0;
+	camera->tot_move.y = 0;
 	camera->view_mode = 0;
 }
 

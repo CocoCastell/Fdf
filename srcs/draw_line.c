@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:16:36 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:42:15 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ void	slope_smaller_than_one(t_point origin, t_point dest, t_vars *vars, t_point 
 void	draw_line(t_point origin, t_point dest, t_vars *vars)
 {
 	t_point	diff;
-
+	
+	//ft_printf("ox: %d, oy: %d, dx: %d, dy: %d\n", origin.x, origin.y, dest.x, dest.y);
 	diff.x = abs(dest.x - origin.x);
 	diff.y = abs(dest.y - origin.y);
 	if (diff.x < diff.y)

@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/26 18:34:52 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:10:11 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ void	render_window(t_vars *vars)
 	{
 		j = -1;
 		while (++j < vars->map.x_axis)
+		{
 			render_map(i + 1, j + 1, vars);
-	}
+		}
+	}	
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 	draw_menu(vars);
+	vars->event.has_mouse_moved = false;
 }
 
 void    event_manager(t_vars *vars)
@@ -76,6 +79,7 @@ int	main(int argc, char *argv[])
 		event_manager(&vars);
 		render_window(&vars);
 		mlx_loop(vars.mlx);
+		free_error(&vars, NULL, 0);
 	}
 	else
 		return (ft_printf("Wrong number of arguments\n"), 1);

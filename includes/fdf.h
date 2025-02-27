@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:20:18 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:12:38 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@
 // EVENTS
 
 # define ESC 65307
-# define RIGHT_CLICK 3
 # define LEFT_CLICK 1
+# define WHEEL 2
+# define RIGHT_CLICK 3
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 # define KEY_1 49
@@ -93,6 +94,7 @@ typedef struct s_map
 	int				z_max;
 	int				z_min;
 	t_color			max_color;
+	t_color			mid_color;
 	t_color			min_color;
 	enum e_mode		color_mode;
 }	t_map;
@@ -105,6 +107,7 @@ typedef struct s_camera
 	int		zoom;
 	t_point	mouse_click;
 	t_point	mouse_move;
+	t_point tot_move;
 	int		view_mode;
 }	t_camera;
 
@@ -112,10 +115,13 @@ typedef struct s_event
 {
 	bool	is_left_pressed;
 	bool	is_right_pressed;
+	bool	is_wheel_pressed;
 	bool	is_1_pressed;
 	bool	is_2_pressed;
 	bool	is_3_pressed;
 	bool	is_4_pressed;
+	bool	has_mouse_moved;
+	bool	is_transposed;
 }	t_event;
 
 typedef struct s_vars
@@ -148,11 +154,11 @@ char	*get_full_line(int fd, int is_eof, t_vars *vars);
 void	get_map(char *argv[], t_vars *vars);
 
 // Geometry
-void	center(t_point *point, t_point map_center);
+void	center(t_point *point, t_point map_center, t_vars *vars);
 void	scale(t_point *point, t_camera camera);
 void	isometric_projection(t_point *point, t_camera camera);
 void	apply_changes_and_draw(t_point origin, t_point dest, t_vars *vars);
-void	transpose(t_point *point, t_camera camera);
+void	transpose(t_point *point, t_camera *camera, t_vars *vars);
 void	rotate(t_vars *vars);
 
 // Rendering
@@ -177,8 +183,8 @@ int		key_pressed(int keycode, t_vars *vars);
 int		key_released(int keycode, t_vars *vars);
 
 // Color
-void	set_point_color(t_point *point, t_vars *vars);
-int		find_color(int max_color, int min_color, t_vars *vars, int height);
+void	color_manager(t_point *point, t_vars *vars);
+int		find_color(int max_color, int min_color, t_point point, t_vars *vars, int height);
 int		set_pix_color(t_point origin, t_point dest, t_point pix, t_vars *vars);
 
 //Color Utils
