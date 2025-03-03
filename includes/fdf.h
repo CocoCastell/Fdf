@@ -39,6 +39,7 @@
 # define KEY_2 50
 # define KEY_3 51
 # define KEY_4 52
+# define SPACE 32
 
 // COLORS
 
@@ -46,7 +47,7 @@
 # define WIN_BACKGD 
 # define MENU_LIMIT -657956 //7181017
 # define TEXT_COLOR -657956 
-# define TITLE_COLOR -178650
+# define TITLE_COLOR -175680
 
 ///////////////////
 //|	Structures	|//
@@ -107,7 +108,9 @@ typedef struct s_camera
 	int		zoom;
 	t_point	mouse_click;
 	t_point	mouse_move;
-	t_point tot_move;
+	t_point	mouse_r_click;
+	t_point	mouse_r_move;
+	t_point tot_offset;
 	int		view_mode;
 }	t_camera;
 
@@ -143,22 +146,27 @@ typedef struct s_vars
 void	exit_error(char *msg, int error);
 void	free_error(t_vars *vars, char *msg, int error);
 void	error_map(char *str1, char *str2, t_vars *vars, char *msg);
+void	free_mlx(t_vars *vars);
 
 // Utils
-t_point	new_map_center(t_vars *vars);
 void	put_str(t_vars *vars, t_point coord, int color, char *text);
 void	put_pixel_menu(int x, int y, t_data_img *img, int color);
+t_point	new_map_center(t_vars *vars);
+void	draw_square(t_vars *vars, t_point width, t_point height, int color);
 
 // Map
 char	*get_full_line(int fd, int is_eof, t_vars *vars);
 void	get_map(char *argv[], t_vars *vars);
+void	map_lengths(char **map, int *rows, int *cols);
+void	find_min_max_z(t_map *map);
+int     get_matrix(t_vars *vars, int ***new_map, char **map);
 
 // Geometry
 void	center(t_point *point, t_point map_center, t_vars *vars);
 void	scale(t_point *point, t_camera camera);
 void	isometric_projection(t_point *point, t_camera camera);
 void	apply_changes_and_draw(t_point origin, t_point dest, t_vars *vars);
-void	transpose(t_point *point, t_camera *camera, t_vars *vars);
+void	transpose(t_point *point, t_camera *camera, t_event event);
 void	rotate(t_vars *vars);
 
 // Rendering

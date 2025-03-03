@@ -13,7 +13,6 @@
 #include "../includes/fdf.h"
 
 //to center the map in the window
-
 void	find_min_max_z(t_map *map)
 {
 	int	i;
@@ -41,14 +40,14 @@ void	find_min_max_z(t_map *map)
 	map->z_min = min;
 }
 
-int	get_matrix(t_vars *vars, int **new_map, char **map)
+int	get_matrix(t_vars *vars, int ***new_map, char **map)
 {
 	int	i;
 	int	j;
 	char	**line;
 
-	new_map = malloc(sizeof(int *) * vars->map.y_axis);
-	if (new_map == NULL)
+	*new_map = malloc(sizeof(int *) * vars->map.y_axis);
+	if (*new_map == NULL)
 		return (1);
 	i = -1;
 	while (map[++i] != NULL)
@@ -56,17 +55,17 @@ int	get_matrix(t_vars *vars, int **new_map, char **map)
 		j = -1;
 		line = ft_split(map[i], ' ');
 		if (line == NULL)
-			return (ft_free_matrix(new_map, i), 1);
-		new_map[i] = malloc(sizeof(int *) * vars->map.x_axis);
-		if (new_map[i] == NULL)
-			return (free(line), ft_free_matrix(new_map, i), 1);
+			return (ft_free_matrix(*new_map, i), 1);
+		(*new_map)[i] = malloc(sizeof(int *) * vars->map.x_axis);
+		if ((*new_map)[i] == NULL)
+			return (ft_free_string_array(line), ft_free_matrix(*new_map, i), 1);
 		while (line[++j] != NULL)
-			new_map[i][j] = ft_atoi(line[j]);
+			(*new_map)[i][j] = ft_atoi(line[j]);
 		if (j > vars->map.x_axis)
-			return (ft_free_matrix(new_map, i), 2);
-		free(line);
+			return (ft_free_matrix(*new_map, i), 2);
+		ft_free_string_array(line);
 	}
-	vars->map.map = new_map;
+	vars->map.map = *new_map;
 	return (0);
 }
 
@@ -81,7 +80,7 @@ void	map_lengths(char **map, int *rows, int *cols)
 			return ; // retrourner erreur
 		while(line[*cols] != NULL)
 			(*cols)++;
-		free(line);
+		ft_free_string_array(line);
 		(*rows)++;
 	}
 }
@@ -90,6 +89,7 @@ char	*get_full_line(int fd, int is_eof, t_vars *vars)
 {
 	char	*line;
 	char	*buffer;
+	char	*temp;
 
 	buffer = NULL;
 	while (is_eof != 1)
@@ -102,11 +102,15 @@ char	*get_full_line(int fd, int is_eof, t_vars *vars)
 		if (buffer == NULL)
 			buffer = line;
 		else
-			buffer = ft_strjoin(buffer, line);
-		if (buffer == NULL)
-			error_map(line, buffer, vars, "Strjoin error\n");
+		{
+			temp = ft_strjoin(buffer, line);
+			if (temp == NULL)
+				error_map(line, buffer, vars, "Strjoin error\n");
+			free(buffer);
+			buffer = temp;
+		}
 	}
-	free(line);
+	free(line);  //Essayer avec strcpy ?
 	return (buffer);
 }
 
@@ -126,10 +130,8 @@ void	get_map(char *argv[], t_vars *vars)
 		free_error(vars, "Split error\n", 1);
 	new_map = NULL;
 	map_lengths(map, &vars->map.y_axis, &vars->map.x_axis);
-	if (get_matrix(vars, new_map, map) == 1)
+	if (get_matrix(vars, &new_map, map) > 1)
 		error_map(NULL, NULL, vars, "Map error\n");
-	if (get_matrix(vars, new_map, map) == 2)
-		error_map(NULL, NULL, vars, "Wrong map configuration\n");
 	find_min_max_z(&vars->map);
 	ft_free_string_array(map);
 }

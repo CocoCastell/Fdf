@@ -16,6 +16,7 @@ LIBFT_SRCS	=	lib/ft_free_matrix.c \
 			lib/ft_putstr_fd.c \
 			lib/ft_strncmp.c \
 			lib/ft_atoi.c \
+			lib/ft_itoa.c \
 			lib/ft_split.c \
 			lib/ft_strnstr.c \
 			lib/ft_bzero.c \
@@ -24,6 +25,7 @@ LIBFT_SRCS	=	lib/ft_free_matrix.c \
 			lib/ft_strrchr.c \
 			lib/ft_calloc.c \
 			lib/ft_memcmp.c \
+			lib/ft_strrev.c \
 			lib/ft_strdup.c \
 			lib/ft_strtrim.c \
 			lib/ft_isalnum.c \

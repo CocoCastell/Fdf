@@ -1,46 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cochatel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 16:42:08 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/12 16:08:14 by cochatel         ###   ########.fr       */
+/*   Created: 2024/09/24 17:11:14 by cochatel          #+#    #+#             */
+/*   Updated: 2024/10/05 17:29:00 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-#include <stdio.h>
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	ft_strrev(char *str)
 {
-	char	*cat;
-	size_t	j;
-	size_t	i;
+	int	len;
+	int	i;
+	char	temp;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	if (s1 == NULL)
-		return ((char *)s2);
-	if (s2 == NULL)
-        	return ((char *)s1);
-	cat = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (cat == NULL)
-		return (NULL);
+	len = 0;
 	i = 0;
-	while (s1[i] != '\0')
+	if (!str)
+		return;
+	len = ft_strlen(str);
+	while (i < len / 2)
 	{
-		cat[i] = s1[i];
+		temp = str[i];
+		str[i] = str[len - i - 1];
+		str[len - i - 1] = temp;
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		cat[i] = s2[j];
-		i++;
-		j++;
-	}
-	cat[i] = '\0';
-	return (cat);
 }

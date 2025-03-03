@@ -131,7 +131,6 @@ int	set_pix_color(t_point origin, t_point dest, t_point pix, t_vars *vars)
 	float	f;
 	
 	(void)vars;
-	//ft_printf("ox: %d, oy: %d, dx: %d, dy: %d, pix: %d, piy: %d\n", origin.x, origin.y, dest.x, dest.y, pix.x, pix.y);
 	f = interpolation_fraction(origin, dest, pix);
 	pix.color.r = origin.color.r + (dest.color.r - origin.color.r) * f;
 	pix.color.g = origin.color.g + (dest.color.g - origin.color.g) * f;

@@ -14,8 +14,15 @@
 
 int	my_close(t_vars *vars)
 {
-	mlx_destroy_window(vars->mlx, vars->win);
+	free_mlx(vars);
 	exit(0);
+}
+
+void	init_offset(t_vars *vars)
+{
+	vars->event.is_transposed = false;
+	vars->camera.tot_offset.x = 0;
+	vars->camera.tot_offset.y = 0;
 }
 
 int	key_pressed(int keycode, t_vars *vars)
@@ -30,12 +37,8 @@ int	key_pressed(int keycode, t_vars *vars)
 		put_color_mode(WHITE, vars);
 	if (keycode == ESC)
 		my_close(vars);
+	if (keycode == SPACE)
+		init_offset(vars);
 	render_window(vars);
 	return (0);
 }
-
-/*int	key_released(int keycode, t_vars *vars)
-{
-	return (0);
-}
-*/

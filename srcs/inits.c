@@ -46,9 +46,13 @@ void	init_camera(t_camera *camera)
 	camera->mouse_click.y = 0;
 	camera->mouse_move.x = 0;
 	camera->mouse_move.y = 0;
-	camera->tot_move.x = 0;
-	camera->tot_move.y = 0;
+	camera->tot_offset.x = 0;
+	camera->tot_offset.y = 0;
 	camera->view_mode = 0;
+	camera->mouse_r_click.x = 0;
+	camera->mouse_r_click.y = 0;
+	camera->mouse_r_move.x = 0;
+	camera->mouse_r_move.y = 0;
 }
 
 void	ft_mlx_init(t_vars *vars)

@@ -39,8 +39,10 @@ LIBFT_FILES	=	gnl/get_next_line_bonus.c \
 			lib/ft_strmapi.c \
 			lib/ft_putstr_fd.c \
 			lib/ft_strncmp.c \
+			lib/ft_strrev.c \
 			lib/ft_atoi.c \
 			lib/ft_split.c \
+			lib/ft_itoa.c \
 			lib/ft_strnstr.c \
 			lib/ft_bzero.c \
 			lib/ft_memchr.c \

@@ -12,36 +12,28 @@
 
 #include "../includes/fdf.h"
 
-// Translate the point -> it would be better to put the coordinates in a matrix
-// to keep the modification
-void	transpose(t_point *point, t_camera *camera, t_vars *vars)
+// Translate the point -> it would be better to put the coordinates in a matrix ?
+// We divide by 2 the offset in case the function is called twice
+void	transpose(t_point *point, t_camera *camera, t_event event)
 {
 	t_point	diff;
-	(void)vars;	
-	
-	if (vars->event.is_transposed == true)
+
+	if (event.is_transposed == true && event.is_right_pressed == false)
 	{
-		diff.x = camera->mouse_click.x - camera->mouse_move.x;// + camera->tot_move.x;
-		diff.y = camera->mouse_click.y - camera->mouse_move.y;// + camera->tot_move.y;
-		diff.x = -diff.x;
-		diff.y = -diff.y;
-		camera->tot_move.x += diff.x;
-		camera->tot_move.y += diff.y;
-		
+		diff.x = camera->tot_offset.x;
+		diff.y = camera->tot_offset.y;
 	}
 	else
 	{
-		diff.x = camera->mouse_click.x - camera->mouse_move.x;
-		diff.y = camera->mouse_click.y - camera->mouse_move.y;
-		diff.x = -diff.x;
-		diff.y = -diff.y;
+		diff.x = camera->mouse_r_move.x - camera->mouse_r_click.x + (camera->tot_offset.x / 2);
+		diff.y = camera->mouse_r_move.y - camera->mouse_r_click.y + (camera->tot_offset.y / 2);
 	}
 	point->x += diff.x;
 	point->y += diff.y;
 }
 
 /*
- * void	rotate_z(t_point *point, t_camera *camera)
+void	rotate_z(t_point *point, t_camera *camera)
 {
 	point->x = 
 	point->x =
@@ -57,6 +49,7 @@ void	isometric_projection(t_point *point, t_camera camera)
 	point->y = (tmp + point->y) * sin(camera.x_angle) - point->z;
 }
 
+// Apply the different transformation to a given point
 void	apply_changes(t_point *point, t_vars *vars)
 {
 	t_point map_center;
@@ -65,17 +58,17 @@ void	apply_changes(t_point *point, t_vars *vars)
 	scale(point, vars->camera);
 	if (vars->camera.view_mode == 0)
 		isometric_projection(point, vars->camera);
-	if (vars->event.is_right_pressed == true)
-		transpose(point, &vars->camera, vars);
 //	if (vars->event.is_left_pressed == true)
 //		rotate(point, &vars->camera);
 	map_center = new_map_center(vars);
 	center(point, map_center, vars);
-	/*if (vars->event.has_mouse_moved == true)
+	if (vars->event.has_mouse_moved == true || vars->event.is_transposed == true)
 	{
 		vars->event.is_transposed = true;
-		transpose(point, &vars->camera, vars);
-	}*/
+		transpose(point, &vars->camera, vars->event);
+	}
+	if (vars->event.is_right_pressed == true)
+		transpose(point, &vars->camera, vars->event);
 }
 
 void    apply_changes_and_draw(t_point origin, t_point dest, t_vars *vars)

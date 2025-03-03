@@ -19,7 +19,7 @@ void	exit_error(char *msg, int error)
 	exit(error);
 }
 
-void	free_error(t_vars *vars, char *msg, int error)
+void	free_mlx(t_vars *vars)
 {
 	if (vars->map.map != NULL)
 		ft_free_matrix(vars->map.map, vars->map.y_axis);
@@ -32,6 +32,11 @@ void	free_error(t_vars *vars, char *msg, int error)
 		mlx_destroy_display(vars->mlx);
 		free(vars->mlx);
 	}
+}
+
+void	free_error(t_vars *vars, char *msg, int error)
+{
+	free_mlx(vars);
 	exit_error(msg, error);
 }
 
@@ -40,6 +45,6 @@ void	error_map(char *str1, char *str2, t_vars *vars, char *msg)
 	if (str1 != NULL)
 		free(str1);
 	if (str2 != NULL)
-		free(str2);
+			free(str2);
 	free_error(vars, msg, 1);
 }

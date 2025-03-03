@@ -12,7 +12,7 @@
 
 #include "../includes/fdf.h"
 
-#define CENTER_MENU (MENU_WIDTH / 4 + 10)
+#define CENTER_MENU 70
 #define LINE_BREAK 30
 #define MAP_INFO_TAB 150
 #define COLOR_TAB 375
@@ -42,18 +42,25 @@ void	draw_background(t_vars *vars)
 void	color_mode_str(t_vars *vars)
 {
 	t_point coord;
-
+	t_point width;
+	t_point	height;
+	
+	width.x = 25;
+	width.y = MENU_WIDTH - 25;
+	height.x = COLOR_TAB - 25;
+	height.y = height.x + 165;
+	draw_square(vars, width, height, MENU_LIMIT);
 	coord.x = CENTER_MENU;
 	coord.y = COLOR_TAB;
 	put_str(vars, coord, TITLE_COLOR, "-- CHOSE COLOR --");
 	coord.y += LINE_BREAK;
-	put_str(vars, coord, TEXT_COLOR, "Terrain: press 1");
+	put_str(vars, coord, TEXT_COLOR, "1: Terrain");
 	coord.y += LINE_BREAK;
-	put_str(vars, coord, TEXT_COLOR, "White to red: press 2");
+	put_str(vars, coord, TEXT_COLOR, "2: White to red");
 	coord.y += LINE_BREAK;
-	put_str(vars, coord, TEXT_COLOR, "Blue to orange: press 3");
+	put_str(vars, coord, TEXT_COLOR, "3: Green to orange");
 	coord.y += LINE_BREAK;
-	put_str(vars, coord, TEXT_COLOR, "White: press 4");
+	put_str(vars, coord, TEXT_COLOR, "4: White");
 
 }
 
@@ -68,36 +75,67 @@ void	view_mode_str(t_vars *vars)
 	put_str(vars, coord, TEXT_COLOR, "Isometric: press TAB ");
 	coord.y += LINE_BREAK;
 	put_str(vars, coord, TEXT_COLOR, "AUTRE: press ?? ");
+	coord.y += LINE_BREAK;
+	coord.y += LINE_BREAK;
+	put_str(vars, coord, TEXT_COLOR, "To reset press Space");
 }
 
 void	map_info_str(t_vars *vars)
 {
 	t_point coord;
-	
+	char	*str;
+	int tmp;
+
+	tmp = MENU_WIDTH - 150;
+	str = ft_itoa(vars->map.x_axis);
 	coord.x = CENTER_MENU;
 	coord.y = MAP_INFO_TAB;
 	put_str(vars, coord, TITLE_COLOR, "- MAP INFO -");
 	coord.y += LINE_BREAK;
 	put_str(vars, coord, TEXT_COLOR, "Map width: ");
+	coord.x += tmp;
+	put_str(vars, coord, TEXT_COLOR, str);
+	coord.x -= tmp;
 	coord.y += LINE_BREAK;
 	put_str(vars, coord, TEXT_COLOR, "Map length: ");
+	free(str);
+	str = ft_itoa(vars->map.y_axis);
+	coord.x += tmp;
+	put_str(vars, coord, TEXT_COLOR, str);
+	coord.x -= tmp;
 	coord.y += LINE_BREAK;
 	put_str(vars, coord, TEXT_COLOR, "Map max height: ");
-	coord.y += LINE_BREAK;
-	put_str(vars, coord, TEXT_COLOR, "Map height: ");
-
+	free(str);
+	str = ft_itoa(vars->map.z_max);
+	coord.x += tmp;
+	put_str(vars, coord, TEXT_COLOR, str);
+	free(str);
 }
 
 void	draw_menu(t_vars *vars)
 {
 	t_point coord;
+	t_point	width;
+	t_point height;
 
-	coord.x = CENTER_MENU + 10;
+	coord.x = CENTER_MENU;
 	coord.y = LINE_BREAK * 2;
 	put_str(vars, coord, TITLE_COLOR, "     MENU   ");
 	coord.y += 10;
-	put_str(vars, coord, TITLE_COLOR, "_____________");
+	put_str(vars, coord, TITLE_COLOR, "______________");
 	map_info_str(vars);
 	color_mode_str(vars);
 	view_mode_str(vars);
+	width.x = 25;
+	width.y = MENU_WIDTH - 25;
+	height.x = MAP_INFO_TAB - 25;
+	height.y = height.x + 145;
+	draw_square(vars, width, height, MENU_LIMIT);
+	width.x = 25;
+	width.y = MENU_WIDTH - 25;
+	height.x = VIEW_TAB - 25;
+	height.y = height.x + 165;
+	draw_square(vars, width, height, MENU_LIMIT);
+	coord.y = MENU_HEIGHT - 30;
+	put_str(vars, coord, TEXT_COLOR,"Made by @CocoCastell");
 }

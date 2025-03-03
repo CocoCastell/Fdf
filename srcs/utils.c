@@ -44,3 +44,26 @@ void	put_pixel_menu(int x, int y, t_data_img *img, int color)
 		*(unsigned int *)dst = color;
 	}
 }
+
+// Draw squares for the menu
+void	draw_square(t_vars *vars, t_point width, t_point height, int color)
+{
+	int	w;
+	int	h;
+	int	l;
+
+	l = 1;
+	h = height.x;
+	w = width.x;
+	while (height.x < height.y)
+	{
+		width.x = w;
+		while (width.x < width.y)
+		{
+			if (!(height.x >= (h + l) && height.x < (height.y - l) && width.x >= (w + l) && width.x < (width.y - l)))
+				put_pixel_menu(width.x, height.x, &vars->img, color);
+			width.x++;
+		}
+		height.x++;
+	}
+}
