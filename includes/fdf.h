@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 17:12:38 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:17:10 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define MENU_HEIGHT 900
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 900
+# define MOUSE_SENSITIVITY 0.0025
 
 // EVENTS
 
@@ -40,6 +41,13 @@
 # define KEY_3 51
 # define KEY_4 52
 # define SPACE 32
+# define W 119
+# define S 115
+# define A 97
+# define D 100
+# define E 101
+# define Q 113
+# define TAB 65289
 
 // COLORS
 
@@ -112,6 +120,7 @@ typedef struct s_camera
 	t_point	mouse_r_move;
 	t_point tot_offset;
 	int		view_mode;
+	int		perspective;
 }	t_camera;
 
 typedef struct s_event
@@ -124,6 +133,7 @@ typedef struct s_event
 	bool	is_3_pressed;
 	bool	is_4_pressed;
 	bool	has_mouse_moved;
+	bool	is_rotated;
 	bool	is_transposed;
 }	t_event;
 
@@ -162,12 +172,16 @@ void	find_min_max_z(t_map *map);
 int     get_matrix(t_vars *vars, int ***new_map, char **map);
 
 // Geometry
-void	center(t_point *point, t_point map_center, t_vars *vars);
+void	center(t_point *point);
 void	scale(t_point *point, t_camera camera);
-void	isometric_projection(t_point *point, t_camera camera);
+void	isometric_projection(t_point *point);
+void	oblic_projection(t_point *point);
 void	apply_changes_and_draw(t_point origin, t_point dest, t_vars *vars);
 void	transpose(t_point *point, t_camera *camera, t_event event);
-void	rotate(t_vars *vars);
+void	get_angles(t_camera *camera);
+void	rotate_x(t_point *point, t_camera camera);
+void	rotate_y(t_point *point, t_camera camera);
+void	rotate_z(t_point *point, t_camera camera);
 
 // Rendering
 void	put_pixel(int x, int y, t_data_img *img, int color);

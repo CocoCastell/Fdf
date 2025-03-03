@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 13:06:39 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/03 11:38:47 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #define LINE_BREAK 30
 #define MAP_INFO_TAB 150
 #define COLOR_TAB 375
-#define VIEW_TAB 600
+#define VIEW_TAB 620
 #define LINE 20
 #define EDGE 2
 

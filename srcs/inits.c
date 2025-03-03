@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 14:46:25 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:15:27 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	init_event(t_event *event)
 void	init_camera(t_camera *camera)
 {
 	camera->zoom = 20;
-	camera->x_angle = 0.5236;
-	camera->y_angle = 0.5236;
-	camera->z_angle = 0.5236;
+	camera->x_angle = 0;
+	camera->y_angle = 0;
+	camera->z_angle = 0;
 	camera->mouse_click.x = 0;
 	camera->mouse_click.y = 0;
 	camera->mouse_move.x = 0;
@@ -53,6 +53,7 @@ void	init_camera(t_camera *camera)
 	camera->mouse_r_click.y = 0;
 	camera->mouse_r_move.x = 0;
 	camera->mouse_r_move.y = 0;
+	camera->perspective = 1;
 }
 
 void	ft_mlx_init(t_vars *vars)

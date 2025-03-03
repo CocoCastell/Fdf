@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:18:41 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:53:46 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_point	new_map_center(t_vars *vars)
 	center.y *= vars->camera.zoom;
 	center.x *= vars->camera.zoom;
 	center.z *= vars->camera.zoom;
-	isometric_projection(&center, vars->camera);
+	isometric_projection(&center);
 	return (center);
 }
 

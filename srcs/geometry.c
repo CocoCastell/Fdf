@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 17:12:22 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:16:41 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,53 @@ void	transpose(t_point *point, t_camera *camera, t_event event)
 	point->y += diff.y;
 }
 
-/*
-void	rotate_z(t_point *point, t_camera *camera)
-{
-	point->x = 
-	point->x =
-}
-*/
-
-void	isometric_projection(t_point *point, t_camera camera)
+void	isometric_projection(t_point *point)
 {
     int	tmp;
 
 	tmp = point->x;
-	point->x = (point->x - point->y) * cos(camera.x_angle);
-	point->y = (tmp + point->y) * sin(camera.x_angle) - point->z;
+	point->x = (point->x - point->y) * cos(0.5236);
+	point->y = (tmp + point->y) * sin(0.5236) - point->z;
+}
+
+//Effet de voyage supraluminique:
+// if (point->z != 0)
+// point->x = (point->x * 10) / point->z;
+// point->y = (point->y * 10) / point->z;
+/*void	perspective_projection(t_point *point)
+{
+	if (point->z > 0.001)
+	{
+		point->x = point->x / point->z;
+		point->y = -(point->y / point->z);
+	}
+}*/
+
+void	oblic_projection(t_point *point)
+{
+	float	angle;
+
+	angle = M_PI / 4;
+	point->x = point->x + 0.5 * point->z * cos(angle);  
+	point->y = point->y + 0.5 * point->z * sin(angle);
 }
 
 // Apply the different transformation to a given point
+// Recenter the point for the rotation to apply at center
 void	apply_changes(t_point *point, t_vars *vars)
 {
-	t_point map_center;
-	
 	color_manager(point, vars);
 	scale(point, vars->camera);
+	point->x -= vars->map.x_axis * vars->camera.zoom / 2;
+	point->y -= vars->map.y_axis * vars->camera.zoom / 2;
+	rotate_z(point, vars->camera);
+	rotate_x(point, vars->camera);
+	rotate_y(point, vars->camera);
 	if (vars->camera.view_mode == 0)
-		isometric_projection(point, vars->camera);
-//	if (vars->event.is_left_pressed == true)
-//		rotate(point, &vars->camera);
-	map_center = new_map_center(vars);
-	center(point, map_center, vars);
+		isometric_projection(point);
+	else
+		oblic_projection(point);
+	center(point);
 	if (vars->event.has_mouse_moved == true || vars->event.is_transposed == true)
 	{
 		vars->event.is_transposed = true;
@@ -73,7 +90,6 @@ void	apply_changes(t_point *point, t_vars *vars)
 
 void    apply_changes_and_draw(t_point origin, t_point dest, t_vars *vars)
 {
-	//ft_printf("AVANT: origin: %d, %d, dest: %d, %d\n", origin.x, origin.y, dest.x, dest.y);
 	apply_changes(&origin, vars);
 	apply_changes(&dest, vars);
 	draw_line(origin, dest, vars);

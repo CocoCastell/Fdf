@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   geometry_utils.c                                   :+:      :+:    :+:   */
+/*   geometry_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/03/03 14:18:01 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:57:38 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void    center(t_point *point)
-{
-	point->x += ((WIN_WIDTH + MENU_WIDTH ) / 2) + MENU_WIDTH / 2;	
-	point->y += (WIN_HEIGHT / 2);
-}
-
-void	scale(t_point *point, t_camera camera)
-{
-	point->x *= camera.zoom;
-	point->y *= camera.zoom;
-	point->z *= camera.zoom;
-}
 
 void	rotate_z(t_point *point, t_camera camera)
 {
@@ -50,4 +37,10 @@ void	rotate_x(t_point *point, t_camera camera)
 	tmp = point->y;
 	point->y = tmp * cos(camera.x_angle) - point->z * sin(camera.x_angle);
 	point->z = tmp * sin(camera.x_angle) + point->z * cos(camera.x_angle);
+}
+
+void	center_rotation(t_point *point)
+{
+	point->x -= map.x_axis * camera.zoom / 2;
+	point->y -= map.y_axis * camera.zoom / 2;
 }
