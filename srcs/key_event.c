@@ -66,6 +66,10 @@ int	key_pressed(int keycode, t_vars *vars)
 		increase_angle(&vars->camera, keycode);
 	if (keycode == S || keycode == A || keycode == Q)
 		decrease_angle(&vars->camera, keycode);
+	if (keycode == T)
+		vars->event.is_terrain = true;
+	if (keycode == C)
+		vars->event.is_terrain = false;
 	if (keycode == TAB)
 	{
 		if (vars->camera.view_mode == 0)

@@ -28,7 +28,7 @@ void	scale(t_point *point, t_camera camera)
 void	rotate_z(t_point *point, t_camera camera)
 {
 	int	tmp;
-	
+
 	tmp = point->x;
 	point->x = tmp * cos(camera.z_angle) - point->y * sin(camera.z_angle);
 	point->y = tmp * sin(camera.z_angle) + point->y * cos(camera.z_angle);

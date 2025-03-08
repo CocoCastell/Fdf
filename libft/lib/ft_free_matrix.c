@@ -17,7 +17,7 @@ void	ft_free_matrix(int **matrix, int rows)
 	int	i;
 	
 	i = 0;
-	if (matrix != NULL)
+	if (matrix == NULL)
 		return ;
 	while (i < rows)
 	{

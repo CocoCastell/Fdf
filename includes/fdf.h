@@ -27,6 +27,9 @@
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 900
 # define MOUSE_SENSITIVITY 0.0025
+# define LOW 0 //-10
+# define MIDDLE 70 //10
+# define HIGHT 100 //50
 
 // EVENTS
 
@@ -47,6 +50,8 @@
 # define D 100
 # define E 101
 # define Q 113
+# define T 116
+# define C 99
 # define TAB 65289
 
 // COLORS
@@ -102,9 +107,11 @@ typedef struct s_map
 	int				y_axis;
 	int				z_max;
 	int				z_min;
-	t_color			max_color;
+	t_color			very_low_color;
+	t_color			low_color;
 	t_color			mid_color;
-	t_color			min_color;
+	t_color			hight_color;
+	t_color			very_hight_color;
 	enum e_mode		color_mode;
 }	t_map;
 
@@ -118,8 +125,6 @@ typedef struct s_camera
 	t_point	mouse_move;
 	t_point	mouse_r_click;
 	t_point	mouse_r_move;
-	t_point tot_offset;
-	int		view_mode;
 	int		perspective;
 }	t_camera;
 
@@ -135,6 +140,7 @@ typedef struct s_event
 	bool	has_mouse_moved;
 	bool	is_rotated;
 	bool	is_transposed;
+	bool	is_terrain;
 }	t_event;
 
 typedef struct s_vars
@@ -205,14 +211,17 @@ int		key_pressed(int keycode, t_vars *vars);
 int		key_released(int keycode, t_vars *vars);
 
 // Color
-void	color_manager(t_point *point, t_vars *vars);
-int		find_color(int max_color, int min_color, t_point point, t_vars *vars, int height);
+void	gradient_color_mode(t_point *point, t_vars *vars);
+void	gradient_terrain_mode(t_point *point, t_vars *vars);
+int		find_color(int max_color, int min_color, t_point point, int height);
 int		set_pix_color(t_point origin, t_point dest, t_point pix, t_vars *vars);
 
 //Color Utils
 void	put_color_mode(enum e_mode color_mode, t_vars *vars);
 int		create_color(int t, int r, int g, int b);
 float	fraction(float x1, float x2, float x);
+void	put_inbetween_color(t_point *point, t_color max_color, t_color min_color, t_point z_map);
+void	put_main_colors(t_point *point, t_color color);
 
 // Mode
 void	white(t_vars *vars);

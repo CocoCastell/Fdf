@@ -30,10 +30,23 @@ int	create_color(int t, int r, int g, int b)
 	return ((t & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF));
 }
 
-float fraction(float x1, float x2, float x)
+float	fraction(float x1, float x2, float x)
 {
 	if (x1 != x2)
 		return ((x - x1) / (x2 - x1));
 	return (0);
 }
 
+void	put_inbetween_color(t_point *point, t_color max_color, t_color min_color, t_point z_map)
+{
+	point->color.r = find_color(max_color.r, min_color.r, z_map, point->z);
+	point->color.g = find_color(max_color.g, min_color.g, z_map, point->z);
+	point->color.b = find_color(max_color.b, min_color.b, z_map, point->z);
+}
+
+void	put_main_colors(t_point *point, t_color color)
+{
+	point->color.r = color.r;
+	point->color.g = color.g;
+	point->color.b = color.b;
+}

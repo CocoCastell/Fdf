@@ -45,12 +45,10 @@ void    slope_bigger_than_one(t_point origin, t_point dest, t_vars *vars, t_poin
 	t_point	point;
 
 	direction = 1;
-	if (origin.y > dest.y)
-		inverse_value(&origin, &dest);
 	if (origin.x > dest.x)
 		direction = -1;
 	p = 2 * diff.x - diff.y;
-    if (diff.y != 0)
+	if (diff.y != 0)
 	{
 		while (origin.y + i != dest.y)
 		{
@@ -78,8 +76,6 @@ void	slope_smaller_than_one(t_point origin, t_point dest, t_vars *vars, t_point 
 	int		color;
 
 	direction = 1;
-	if (origin.x > dest.x)
-		inverse_value(&origin, &dest);
 	if (origin.y > dest.y)
 		direction = -1;
 	p = 2 * diff.y - diff.x;
@@ -105,11 +101,18 @@ void	draw_line(t_point origin, t_point dest, t_vars *vars)
 {
 	t_point	diff;
 	
-	//ft_printf("ox: %d, oy: %d, dx: %d, dy: %d\n", origin.x, origin.y, dest.x, dest.y);
 	diff.x = abs(dest.x - origin.x);
 	diff.y = abs(dest.y - origin.y);
 	if (diff.x < diff.y)
+	{
+		if (origin.y > dest.y)
+			inverse_value(&origin, &dest);
 		slope_bigger_than_one(origin, dest, vars, diff);
+	}
 	else
+	{
+		if (origin.x > dest.x)
+			inverse_value(&origin, &dest);
 		slope_smaller_than_one(origin, dest, vars, diff);
+	}
 }

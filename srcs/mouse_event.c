@@ -14,12 +14,12 @@
 
 int	mouse_wheel(int mouse_code, t_vars *vars)
 {
-	if (mouse_code == SCROLL_UP)
+	if (mouse_code == SCROLL_DOWN)
 	{
 		if (vars->camera.zoom > 1)
 			vars->camera.zoom -= 1;
 	}
-	if (mouse_code == SCROLL_DOWN)
+	if (mouse_code == SCROLL_UP)
 	{
 		if (vars->camera.zoom < WIN_WIDTH)
 			vars->camera.zoom += 1;
@@ -41,12 +41,16 @@ int	mouse_click(int mouse_code, int x, int y, t_vars *vars)
 			vars->event.is_left_pressed = true;
 		}
 		if (mouse_code == RIGHT_CLICK && vars->event.is_left_pressed == false && vars->event.is_wheel_pressed == false)
-			vars->event.is_right_pressed = true;
-		if (mouse_code == WHEEL && vars->event.is_right_pressed == false && vars->event.is_left_pressed == false)
 		{
+			vars->event.is_right_pressed = true;
 			vars->camera.mouse_click.x = x;
 			vars->camera.mouse_click.y = y;
-			vars->event.is_wheel_pressed = true;
+		}
+		if (mouse_code == WHEEL && vars->event.is_right_pressed == false && vars->event.is_left_pressed == false)
+		{
+			//vars->camera.mouse_click.x = x;
+			//vars->camera.mouse_click.y = y;
+			//vars->event.is_wheel_pressed = true;
 		}
 	}
 	return (0);
@@ -75,15 +79,22 @@ int	mouse_released(int mouse_code, int x, int y, t_vars *vars)
 		get_angles(&vars->camera);
 		vars->event.is_rotated = true;
 	}*/
+	if (mouse_code == LEFT_CLICK && vars->event.is_left_pressed == true)
+	{
+		vars->event.is_left_pressed = false;
+		vars->camera.mouse_move.x = x;
+		vars->camera.mouse_move.y = y;
+		vars->event.has_mouse_moved = true;
+	}
 	if (mouse_code == RIGHT_CLICK && vars->event.is_right_pressed == true)
 		vars->event.is_right_pressed = false;
-	if (mouse_code == WHEEL && vars->event.is_wheel_pressed == true)
+	/*if (mouse_code == WHEEL && vars->event.is_wheel_pressed == true)
 	{
 		vars->event.is_wheel_pressed = false;
 		vars->camera.mouse_move.x = x;
 		vars->camera.mouse_move.y = y;
 		vars->event.has_mouse_moved = true;
-	}
+	}*/
 	render_window(vars);
 	return (0);
 }

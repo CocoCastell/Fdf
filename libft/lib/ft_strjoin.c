@@ -11,22 +11,19 @@
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-#include <stdio.h>
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*cat;
+	size_t 	i;
 	size_t	j;
-	size_t	i;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	if (s1 == NULL)
-		return ((char *)s2);
-	if (s2 == NULL)
-        	return ((char *)s1);
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
 	cat = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (cat == NULL)
+	if (!cat)
 		return (NULL);
 	i = 0;
 	while (s1[i] != '\0')
@@ -36,11 +33,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	j = 0;
 	while (s2[j] != '\0')
-	{
-		cat[i] = s2[j];
-		i++;
-		j++;
-	}
+		cat[i++] = s2[j++];
 	cat[i] = '\0';
 	return (cat);
 }
+

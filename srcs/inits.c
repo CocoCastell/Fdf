@@ -34,6 +34,7 @@ void	init_event(t_event *event)
 	event->is_3_pressed = false;
 	event->has_mouse_moved = false;
 	event->is_transposed = false;
+	event->is_terrain = false;
 }
 
 void	init_camera(t_camera *camera)

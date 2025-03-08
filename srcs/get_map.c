@@ -99,18 +99,14 @@ char	*get_full_line(int fd, int is_eof, t_vars *vars)
 			error_map(line, buffer, vars, "Get_next_line error\n");
 		if (line == NULL)
 			break ;
-		if (buffer == NULL)
-			buffer = line;
-		else
-		{
-			temp = ft_strjoin(buffer, line);
-			if (temp == NULL)
-				error_map(line, buffer, vars, "Strjoin error\n");
+		temp = ft_strjoin(buffer, line);
+		if (temp == NULL)
+			error_map(line, buffer, vars, "Strjoin error\n");
+		free(line);
+		if (buffer != NULL)
 			free(buffer);
-			buffer = temp;
-		}
+		buffer = temp;
 	}
-	free(line);  //Essayer avec strcpy ?
 	return (buffer);
 }
 

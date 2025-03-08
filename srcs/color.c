@@ -12,22 +12,19 @@
 
 #include "../includes/fdf.h"
 
-int	find_color(int max_color, int min_color, t_point z_map, t_vars *vars, int height)
+int	find_color(int max_color, int min_color, t_point z_map, int height)
 {
 	int	color;
 	double coef;
 
-	(void)vars;
 	coef = 0;
 	if (z_map.x != z_map.y)
 		coef = fraction((float)z_map.y, (float)z_map.x, (float)height);
-	//if (vars->map.z_max != vars->map.z_min)
-	//	coef = fraction((float)vars->map.z_min, (float)vars->map.z_max, (float)height);
+	if (coef < 0)
+		coef = 0;
+	if (coef > 1)
+		coef = 1;
 	color = coef * (max_color - min_color) + min_color; 
-	//if (height < (vars->map.z_min - vars->map.z_min) / 2)
-	//		color = coef * (mid_color - min_color) + min_color; 
-	//else
-	//		color = coef * (max_color - mid_color) + min_color; 
 	if (color > 255)
 		color = 255;
 	if (color < 0)
@@ -35,81 +32,63 @@ int	find_color(int max_color, int min_color, t_point z_map, t_vars *vars, int he
 	return (color);
 }
 
-void	color_manager(t_point *point, t_vars *vars)
+void	gradient_terrain_mode(t_point *point, t_vars *vars)
 {
-	int	h;
+	t_point z_map;
+	
+	z_map.x = LOW;
+	z_map.y = vars->map.z_min;
+	if (point->z <= vars->map.z_min)
+		put_main_colors(point, vars->map.very_low_color);
+	else if (point->z <= LOW)
+		put_inbetween_color(point, vars->map.low_color, vars->map.very_low_color, z_map);
+	else if (point->z <= MIDDLE)
+	{
+		z_map.x = MIDDLE;
+		z_map.y = LOW;
+		put_inbetween_color(point, vars->map.mid_color, vars->map.low_color, z_map);
+	}
+	else if (point->z <= HIGHT)
+	{
+		z_map.x = HIGHT;
+		z_map.y = MIDDLE;
+		put_inbetween_color(point, vars->map.hight_color, vars->map.mid_color, z_map);
+	}
+	else if (point->z < vars->map.z_max)
+	{
+		z_map.x = vars->map.z_max;
+		z_map.y = HIGHT;
+		put_inbetween_color(point, vars->map.very_hight_color, vars->map.hight_color, z_map);
+	}
+	else if (point->z == vars->map.z_max)
+		put_main_colors(point, vars->map.very_hight_color);
+}
+
+void	gradient_color_mode(t_point *point, t_vars *vars)
+{
 	int	limit;
 	t_point z_map;
 	
-	h = point->z;
 	limit = (vars->map.z_max - vars->map.z_min) / 2;
-	if (vars->map.color_mode == TERRAIN)
-		limit = 0;
 	if (point->z == vars->map.z_max)
-	{
-		point->color.r = vars->map.max_color.r;
-		point->color.g = vars->map.max_color.g;
-		point->color.b = vars->map.max_color.b;
-	}
+		put_main_colors(point, vars->map.hight_color);
 	else if (point->z == limit)
-	{
-		point->color.r = vars->map.mid_color.r;
-		point->color.g = vars->map.mid_color.g;
-		point->color.b = vars->map.mid_color.b;
-	}
-	else if (point->z == vars->map.z_min && (limit != vars->map.z_min && vars->map.color_mode == TERRAIN))
-	{
-		point->color.r = vars->map.min_color.r;
-		point->color.g = vars->map.min_color.g;
-		point->color.b = vars->map.min_color.b;
-	}
+		put_main_colors(point, vars->map.mid_color);
+	else if (point->z == vars->map.z_min && limit != vars->map.z_min)
+		put_main_colors(point, vars->map.low_color);
 	else if (point->z > limit)
 	{
-		//z_map.x = vars->map.z_max;
-		//z_map.y = limit;
 		z_map.x = vars->map.z_max;
 		z_map.y = vars->map.z_max / 2;
-		point->color.r = find_color(vars->map.max_color.r, vars->map.mid_color.r, z_map, vars, h);
-		point->color.g = find_color(vars->map.max_color.g, vars->map.mid_color.g, z_map, vars, h);
-		point->color.b = find_color(vars->map.max_color.b, vars->map.mid_color.b, z_map, vars, h);
+		put_inbetween_color(point, vars->map.hight_color, vars->map.mid_color, z_map);
 	}
 	else
 	{
 		z_map.x = vars->map.z_max / 2;
 		z_map.y = vars->map.z_min;
-		//z_map.x = limit;
-	//	z_map.y = vars->map.z_min;
-		point->color.r = find_color(vars->map.mid_color.r, vars->map.min_color.r, z_map, vars, h);
-		point->color.g = find_color(vars->map.mid_color.g, vars->map.min_color.g, z_map, vars, h);
-		point->color.b = find_color(vars->map.mid_color.b, vars->map.min_color.b, z_map, vars, h);
+		put_inbetween_color(point, vars->map.mid_color, vars->map.low_color, z_map);
 	}
 }
-
-/*void	color_manager(t_point *point, t_vars *vars)
-{
-	int	h;
-	t_point z_map;
-	
-	h = (point->z - vars->map.z_min);
-	//ft_printf("H poin: %d, diff: %d, map min %d, map max: %d\n", h, y, vars->map.z_min, vars->map.z_max);
-	if (h > (vars->map.z_max - vars->map.z_min) / 2)
-	{
-		z_map.x = vars->map.z_max;
-		z_map.y = vars->map.z_max / 2;
-		point->color.r = find_color(vars->map.max_color.r, vars->map.mid_color.r, z_map, vars, h);
-		point->color.g = find_color(vars->map.max_color.g, vars->map.mid_color.g, z_map, vars, h);
-		point->color.b = find_color(vars->map.max_color.b, vars->map.mid_color.b, z_map, vars, h);
-	}
-	else
-	{
-		z_map.x = vars->map.z_max / 2;
-		z_map.y = vars->map.z_min;
-		point->color.r = find_color(vars->map.mid_color.r, vars->map.min_color.r, z_map, vars, h);
-		point->color.g = find_color(vars->map.mid_color.g, vars->map.min_color.g, z_map, vars, h);
-		point->color.b = find_color(vars->map.mid_color.b, vars->map.min_color.b, z_map, vars, h);
-	}
-	//ft_printf("r: %d, g: %d, b: %d\n", point->color.r, point->color.g, point->color.b);
-}*/
 
 float	interpolation_fraction(t_point origin, t_point dest, t_point pixel)
 {

@@ -34,7 +34,7 @@ void	transpose(t_point *point, t_camera *camera, t_event event)
 
 void	isometric_projection(t_point *point)
 {
-    int	tmp;
+	int	tmp;
 
 	tmp = point->x;
 	point->x = (point->x - point->y) * cos(0.5236);
@@ -67,7 +67,10 @@ void	oblic_projection(t_point *point)
 // Recenter the point for the rotation to apply at center
 void	apply_changes(t_point *point, t_vars *vars)
 {
-	color_manager(point, vars);
+	if (vars->event.is_terrain == false)
+		gradient_color_mode(point, vars);
+	else
+		gradient_terrain_mode(point, vars);
 	scale(point, vars->camera);
 	point->x -= vars->map.x_axis * vars->camera.zoom / 2;
 	point->y -= vars->map.y_axis * vars->camera.zoom / 2;
