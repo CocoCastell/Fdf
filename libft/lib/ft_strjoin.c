@@ -6,7 +6,7 @@
 /*   By: cochatel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:42:08 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/12 16:08:14 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 11:47:24 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*cat;
-	size_t 	i;
+	size_t	i;
 	size_t	j;
 
 	if (!s1)
@@ -37,4 +37,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	cat[i] = '\0';
 	return (cat);
 }
-

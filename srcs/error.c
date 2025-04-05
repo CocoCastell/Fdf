@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 13:13:04 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 16:45:38 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	error_map(char *str1, char *str2, t_vars *vars, char *msg)
 	if (str1 != NULL)
 		free(str1);
 	if (str2 != NULL)
-			free(str2);
+		free(str2);
 	free_error(vars, msg, 1);
 }

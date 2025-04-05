@@ -1,4 +1,4 @@
-	/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
@@ -6,16 +6,16 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 14:10:11 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:50:38 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void    render_map(int i, int j, t_vars *vars)
+void	render_map(int i, int j, t_vars *vars)
 {
-	t_point dest;
-	t_point origin;
+	t_point	dest;
+	t_point	origin;
 
 	origin.x = j;
 	origin.y = i;
@@ -42,25 +42,28 @@ void	render_window(t_vars *vars)
 	int	j;
 
 	i = -1;
-	ft_bzero(vars->img.addr, WIN_HEIGHT * (WIN_WIDTH + MENU_WIDTH) * (vars->img.bpp / 8));
+	ft_bzero(vars->img.addr, WIN_HEIGHT * (WIN_WIDTH + MENU_WIDTH) * \
+			(vars->img.bpp / 8));
 	draw_background(vars);
 	if (vars->event.has_mouse_moved == true)
 	{
-		vars->camera.tot_offset.x += (vars->camera.mouse_move.x - vars->camera.mouse_click.x);
-		vars->camera.tot_offset.y += (vars->camera.mouse_move.y - vars->camera.mouse_click.y);
+		vars->camera.tot_offset.x += (vars->camera.mouse_move.x - \
+				vars->camera.mouse_click.x);
+		vars->camera.tot_offset.y += (vars->camera.mouse_move.y - \
+				vars->camera.mouse_click.y);
 	}
 	while (++i < vars->map.y_axis)
 	{
 		j = -1;
 		while (++j < vars->map.x_axis)
 			render_map(i + 1, j + 1, vars);
-	}	
+	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 	draw_menu(vars);
 	vars->event.has_mouse_moved = false;
 }
 
-void    event_manager(t_vars *vars)
+void	event_manager(t_vars *vars)
 {
 	mlx_hook(vars->win, ClientMessage, StructureNotifyMask, my_close, vars);
 	mlx_hook(vars->win, KeyPress, KeyPressMask, key_pressed, vars);

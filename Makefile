@@ -26,7 +26,8 @@ SRCS		=	main.c \
 			inits.c \
 			geometry_utils.c \
 			color_utils.c \
-			utils.c
+			utils.c \
+			utils2.c
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 LIBFT_FILES	=	gnl/get_next_line_bonus.c \
 			gnl/get_next_line_utils_bonus.c \

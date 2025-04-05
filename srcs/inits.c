@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/03/03 15:15:27 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 13:56:12 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	init_event(t_event *event)
 {
 	event->is_left_pressed = false;
 	event->is_right_pressed = false;
-	event->is_wheel_pressed = false;
 	event->is_1_pressed = false;
 	event->is_2_pressed = false;
 	event->is_3_pressed = false;
@@ -39,7 +38,7 @@ void	init_event(t_event *event)
 
 void	init_camera(t_camera *camera)
 {
-	camera->zoom = 20;
+	camera->zoom = 10;
 	camera->x_angle = 0;
 	camera->y_angle = 0;
 	camera->z_angle = 0;
@@ -54,7 +53,6 @@ void	init_camera(t_camera *camera)
 	camera->mouse_r_click.y = 0;
 	camera->mouse_r_move.x = 0;
 	camera->mouse_r_move.y = 0;
-	camera->perspective = 1;
 }
 
 void	ft_mlx_init(t_vars *vars)
@@ -71,11 +69,11 @@ void	ft_mlx_init(t_vars *vars)
 	vars->img.img = mlx_new_image(vars->mlx, x_size, WIN_HEIGHT);
 	if (vars->img.img == NULL)
 		free_error(vars, "Img init error\n", 1);
-	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bpp, &vars->img.line_length, &vars->img.endian);
+	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bpp, \
+			&vars->img.line_length, &vars->img.endian);
 	if (vars->img.addr == NULL)
 		free_error(vars, "Img addr init error\n", 1);
 	init_camera(&vars->camera);
 	init_map(vars);
 	init_event(&vars->event);
-	(void)vars;
 }

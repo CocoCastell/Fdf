@@ -6,7 +6,7 @@
 /*   By: cochatel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:46:21 by cochatel          #+#    #+#             */
-/*   Updated: 2025/01/21 14:28:24 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 11:49:30 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_negative(int *nb, int *n, char *str, int *i)
 
 int	get_length(int nb)
 {
-	int	len; 
+	int	len;
 
 	len = 0;
 	while (nb != 0)
@@ -40,10 +40,10 @@ int	get_length(int nb)
 	return (len);
 }
 
-char	*handle_zero()
+char	*handle_zero(void)
 {
 	char	*str;
-	
+
 	str = malloc(2);
 	if (!str)
 		return (NULL);
@@ -54,20 +54,20 @@ char	*handle_zero()
 
 char	*handle_positive(int nb, char *str, int *i)
 {
-    while (nb != 0)
-    {
-        str[*i] = (nb % 10) + '0';
-        (*i)++;
-        nb /= 10;
-    }
-    return (str);
+	while (nb != 0)
+	{
+		str[*i] = (nb % 10) + '0';
+		(*i)++;
+		nb /= 10;
+	}
+	return (str);
 }
 
 char	*ft_itoa(int nb)
 {
-	int	n;
-	int	len;
-	int	i;
+	int		n;
+	int		len;
+	int		i;
 	char	*str;
 
 	n = 1;

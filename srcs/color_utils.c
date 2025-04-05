@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/26 15:58:12 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 11:45:15 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ float	fraction(float x1, float x2, float x)
 	return (0);
 }
 
-void	put_inbetween_color(t_point *point, t_color max_color, t_color min_color, t_point z_map)
+void	inbetween_col(t_point *pt, t_color max_col, t_color min_col, t_point z)
 {
-	point->color.r = find_color(max_color.r, min_color.r, z_map, point->z);
-	point->color.g = find_color(max_color.g, min_color.g, z_map, point->z);
-	point->color.b = find_color(max_color.b, min_color.b, z_map, point->z);
+	pt->color.r = find_color(max_col.r, min_col.r, z, pt->z);
+	pt->color.g = find_color(max_col.g, min_col.g, z, pt->z);
+	pt->color.b = find_color(max_col.b, min_col.b, z, pt->z);
 }
 
 void	put_main_colors(t_point *point, t_color color)

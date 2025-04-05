@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/02/27 13:12:58 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 16:32:01 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	find_min_max_z(t_map *map)
 
 int	get_matrix(t_vars *vars, int ***new_map, char **map)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	**line;
 
 	*new_map = malloc(sizeof(int *) * vars->map.y_axis);
@@ -69,20 +69,29 @@ int	get_matrix(t_vars *vars, int ***new_map, char **map)
 	return (0);
 }
 
-void	map_lengths(char **map, int *rows, int *cols)
+int	map_lengths(char **map, int *rows, int *cols)
 {
-	char **line;
+	char	**line;
+	int		cmp;
 
+	cmp = 0;
 	while (map[*rows] != NULL)
 	{
+		*cols = 0;
 		line = ft_split(map[*rows], ' ');
 		if (line == NULL)
-			return ; // retrourner erreur
-		while(line[*cols] != NULL)
+			return (-1);
+		while (line[*cols] != NULL)
 			(*cols)++;
 		ft_free_string_array(line);
 		(*rows)++;
+		if (cmp == 0)
+			cmp = *cols;
+		if (cmp != *cols && cmp != 0)
+			return (-1);
 	}
+	*cols = cmp;
+	return (0);
 }
 
 char	*get_full_line(int fd, int is_eof, t_vars *vars)
@@ -116,7 +125,7 @@ void	get_map(char *argv[], t_vars *vars)
 	char	*full_line;
 	char	**map;
 	int		**new_map;
-	
+
 	fd = open(argv[1], O_RDONLY);
 	full_line = get_full_line(fd, 0, vars);
 	close(fd);
@@ -125,8 +134,9 @@ void	get_map(char *argv[], t_vars *vars)
 	if (map == NULL)
 		free_error(vars, "Split error\n", 1);
 	new_map = NULL;
-	map_lengths(map, &vars->map.y_axis, &vars->map.x_axis);
-	if (get_matrix(vars, &new_map, map) > 1)
+	if (map_lengths(map, &vars->map.y_axis, &vars->map.x_axis) == -1)
+		free_error(vars, "Map error\n", 1);
+	if (get_matrix(vars, &new_map, map) > 0)
 		error_map(NULL, NULL, vars, "Map error\n");
 	find_min_max_z(&vars->map);
 	ft_free_string_array(map);

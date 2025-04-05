@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/03/03 12:53:46 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:18:26 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	draw_square(t_vars *vars, t_point width, t_point height, int color)
 		width.x = w;
 		while (width.x < width.y)
 		{
-			if (!(height.x >= (h + l) && height.x < (height.y - l) && width.x >= (w + l) && width.x < (width.y - l)))
+			if (!(height.x >= (h + l) && height.x < (height.y - l) && \
+						width.x >= (w + l) && width.x < (width.y - l)))
 				put_pixel_menu(width.x, height.x, &vars->img, color);
 			width.x++;
 		}

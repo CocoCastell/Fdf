@@ -6,15 +6,15 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/03/03 14:18:01 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:06:46 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void    center(t_point *point)
+void	center(t_point *point)
 {
-	point->x += ((WIN_WIDTH + MENU_WIDTH ) / 2) + MENU_WIDTH / 2;	
+	point->x += ((WIN_WIDTH + MENU_WIDTH) / 2) + MENU_WIDTH / 2;
 	point->y += (WIN_HEIGHT / 2);
 }
 

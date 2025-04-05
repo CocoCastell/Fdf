@@ -64,7 +64,7 @@ OBJ		=	$(SRC:%.c=$(OBJS_DIR)%.o)
 
 DEF_COLOR 	= 	\033[0m
 GRAY		= 	\033[0;90m
-RED		= 	\033[0;91m
+RED			= 	\033[0;91m
 GREEN		= 	\033[0;92m
 YELLOW		= 	\033[0;93m
 BLUE		= 	\033[0;94m

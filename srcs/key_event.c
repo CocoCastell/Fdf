@@ -6,7 +6,7 @@
 /*   By: cochatel <cochatel@student.42barcelona.com>+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:47:37 by cochatel          #+#    #+#             */
-/*   Updated: 2025/03/03 15:19:15 by cochatel         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:32:58 by cochatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,10 @@ int	key_pressed(int keycode, t_vars *vars)
 		increase_angle(&vars->camera, keycode);
 	if (keycode == S || keycode == A || keycode == Q)
 		decrease_angle(&vars->camera, keycode);
-	if (keycode == T)
-		vars->event.is_terrain = true;
-	if (keycode == C)
-		vars->event.is_terrain = false;
+	if (keycode == T || keycode == C)
+		select_gradient_mode(keycode, &vars->event);
 	if (keycode == TAB)
-	{
-		if (vars->camera.view_mode == 0)
-			vars->camera.view_mode = 1;
-		else
-			vars->camera.view_mode = 0;
-	}
+		select_view_mode(&vars->camera);
 	render_window(vars);
 	return (0);
 }
