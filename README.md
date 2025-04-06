@@ -22,14 +22,14 @@ Then run the programm with one map argument
 
 - Isometric and oblic view algorithm.
 
-- 2 types of gradient: one continue from both hight extremities and the other one
+- 2 types of gradient: one continous from both height extremities and the other one
   changing color when reaching a new level. I used linear interpolation.
 
-- Trigonometric functions for rotations.
+- Trigonometric functions for rotations on 3 axis.
 
 - Temporary and permanent translation.
 
-- Menu and different color themes.
+- Menu, zoom and different color themes.
 
 # Grade
 
