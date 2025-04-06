@@ -5,10 +5,11 @@ surfaces are outlined in lines. The use of the graphical library MiniLibX is ask
 
 # How to run
 
-First compile in the directory with
+First compile in the directory with  
+'''bash
 'make'
 
-Then execute the programm with one map argument
+Then execute the programm with one map argument  
 './fdf test_maps/pyramid.fdf'
 
 # Implementation
