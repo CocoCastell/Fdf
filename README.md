@@ -12,7 +12,7 @@ make
 
 Then run the programm with one map argument  
 ```
-./fdf test_maps/pyramid.fdf'
+./fdf test_maps/pyramid.fdf  
 ```
 # Implementation
 
@@ -39,7 +39,9 @@ Then run the programm with one map argument
 
 ![Screeshot](./assets/Fdf-T1.png)  
 
-![Gif](./assets/Fdf-Pyramid.gif) 
+![Screenshot](./assets/Fdf-42.png)  
+
+![Gif](./assets/Fdf-Pyramid.gif)  
 
 # Ressources
 
