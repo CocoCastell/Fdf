@@ -59,7 +59,7 @@ void	color_mode_str(t_vars *vars)
 	coord.y += LINE_BREAK + 10;
 	put_str(vars, coord, TEXT_COLOR, "1: Terrain");
 	coord.y += LINE_BREAK;
-	put_str(vars, coord, TEXT_COLOR, "2: White to red");
+	put_str(vars, coord, TEXT_COLOR, "2: White to green");
 	coord.y += LINE_BREAK;
 	put_str(vars, coord, TEXT_COLOR, "3: Green to orange");
 	coord.y += LINE_BREAK;
