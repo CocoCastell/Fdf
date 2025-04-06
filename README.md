@@ -33,7 +33,7 @@ Then run the programm with one map argument
 
 # Grade
 
-125/100
+✅ 125/100
 
 # Results
 
