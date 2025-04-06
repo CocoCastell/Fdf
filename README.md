@@ -7,7 +7,7 @@ surfaces are outlined in lines. The use of the graphical library MiniLibX is ask
 
 First compile in the directory with  
 ```bash
-'make'
+make
 
 Then execute the programm with one map argument  
 './fdf test_maps/pyramid.fdf'
