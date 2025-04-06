@@ -3,6 +3,14 @@
 This project is about representing a landscape as a 3D object in which all  
 surfaces are outlined in lines. The use of the graphical library MiniLibX is asked.  
 
+# How to run
+
+First compile in the directory with
+'make'
+
+Then execute the programm with one map argument
+'./fdf test_maps/pyramid.fdf'
+
 # Implementation
 
 - MiniLibX tools.
@@ -32,6 +40,6 @@ surfaces are outlined in lines. The use of the graphical library MiniLibX is ask
 
 # Ressources
 
-https://www.youtube.com/watch?v=CceepU1vIKo
+https://www.youtube.com/watch?v=CceepU1vIKo  
 https://harm-smits.github.io/42docs/libs/minilibx
 
