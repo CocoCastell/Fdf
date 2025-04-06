@@ -10,13 +10,13 @@ First compile in the directory with
 make
 ```
 
-Then execute the programm with one map argument  
+Then run the programm with one map argument  
 ```
 ./fdf test_maps/pyramid.fdf'
 ```
 # Implementation
 
-- MiniLibX tools.
+- MiniLibX tools: pixel are stored in a buffer (image) and then the buffer is sent to the window.
 
 - Breshenham algorithm to draw the lines.
 
